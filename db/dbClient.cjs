@@ -1,17 +1,25 @@
 const { Pool } = require("pg");
-const { tableExists, dtypeExists } = require("./queryStrings.cjs");
+const query = require("./queryStrings.cjs");
+const model = require("./model.cjs");
 
 require("dotenv").config();
 
 class DBClient {
-  static tables = ["genre", "anime_series", "anime_genre"];
-  static dtypes = ["anime_status"];
-
   constructor() {
     this.pool = this.initPool();
     this.canQuery = false;
     this.errorLogs = [];
-    this.initialization()
+    this.initListening();
+  }
+
+  initPool() {
+    return new Pool({
+      connectionString: process.env.CONNECTION_STRING,
+    });
+  }
+
+  async initListening() {
+    this.getModelStatus()
       .then((res) => {
         this.canQuery = Object.values(res)
           .map((models) => {
@@ -25,26 +33,20 @@ class DBClient {
       });
   }
 
-  async initialization() {
+  async getModelStatus() {
     const tableCheck = this.lookupNonExistingModel(
-      DBClient.tables,
-      tableExists
+      Object.values(model.tables),
+      query.tableExistsQuery
     );
     const dtypesCheck = this.lookupNonExistingModel(
-      DBClient.dtypes,
-      dtypeExists
+      Object.values(model.dtypes),
+      query.dtypeExistsQuery
     );
     const [tableResult, dtypeResult] = await Promise.all([
       tableCheck,
       dtypesCheck,
     ]);
     return { tableResult, dtypeResult };
-  }
-
-  initPool() {
-    return new Pool({
-      connectionString: process.env.CONNECTION_STRING,
-    });
   }
 
   async lookupNonExistingModel(dataModel, queryString) {
@@ -63,6 +65,13 @@ class DBClient {
     );
     return modelCheckResult;
   }
+
+  async getAllAnimeSeries() {
+    const res = await this.pool.query(query.selectAllAnimeSeriesQuery);
+    return res;
+  }
 }
 
-const x = new DBClient();
+module.exports = {
+  dbClient: new DBClient(),
+};
