@@ -1,6 +1,7 @@
 const express = require("express");
 const { resolve } = require("path");
 const { inventoryRouter } = require("./routers/inventory.cjs");
+const { dbClient } = require("./db/dbClient.cjs")
 
 require("dotenv").config();
 
@@ -14,6 +15,15 @@ app.use(express.urlencoded({ extended: true }));
 
 app.use("/", inventoryRouter);
 
-app.listen(PORT, () => {
-  console.debug(`Listening at: http://localhost:${PORT}`);
-});
+async function waitForDatabaseAndStartServer() {
+  while (!dbClient.canQuery) {
+    console.log("Waiting for DB to be ready...");
+    await new Promise((resolve) => setTimeout(resolve, 1000)); 
+  }
+
+  app.listen(PORT, () => {
+    console.debug(`Listening at: http://localhost:${PORT}`);
+  });
+}
+
+waitForDatabaseAndStartServer();

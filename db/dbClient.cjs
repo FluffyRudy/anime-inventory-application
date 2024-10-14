@@ -19,18 +19,15 @@ class DBClient {
   }
 
   async initListening() {
-    this.getModelStatus()
-      .then((res) => {
-        this.canQuery = Object.values(res)
-          .map((models) => {
-            return models.every((modelInfo) => modelInfo.exists);
-          })
-          .every((value) => value);
-      })
-      .catch((err) => {
-        console.error(err);
-        this.canQuery = false;
-      });
+    try {
+      const res = await this.getModelStatus();
+      this.canQuery = Object.values(res)
+        .map((models) => models.every((modelInfo) => modelInfo.exists))
+        .every((value) => value);
+    } catch (err) {
+      console.error("Error during DB initialization: ", err);
+      this.canQuery = false;
+    }
   }
 
   async getModelStatus() {
