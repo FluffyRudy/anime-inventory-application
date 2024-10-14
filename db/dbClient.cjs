@@ -24,6 +24,15 @@ class DBClient {
       this.canQuery = Object.values(res)
         .map((models) => models.every((modelInfo) => modelInfo.exists))
         .every((value) => value);
+      if (!this.canQuery) {
+        const logValues = Object.values(res); 
+        for (const logs of logValues) {
+          for (const log of logs) {
+            if (!log.exists)
+              this.errorLogs.push(log)
+          }
+        }
+      }
     } catch (err) {
       console.error("Error during DB initialization: ", err);
       this.canQuery = false;

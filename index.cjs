@@ -16,9 +16,17 @@ app.use(express.urlencoded({ extended: true }));
 app.use("/", inventoryRouter);
 
 async function waitForDatabaseAndStartServer() {
+  const startTime = Date.now();
   while (!dbClient.canQuery) {
     console.log("Waiting for DB to be ready...");
-    await new Promise((resolve) => setTimeout(resolve, 1000)); 
+    console.log(dbClient.errorLogs)
+    const currentTime = Date.now()
+    if ((currentTime - startTime) / 1000.0 > 10) {
+      console.log("Failed to connect database so quitting");
+      await dbClient.pool.end()
+      return
+    }
+      await new Promise((resolve) => setTimeout(resolve, 1000)); 
   }
 
   app.listen(PORT, () => {
