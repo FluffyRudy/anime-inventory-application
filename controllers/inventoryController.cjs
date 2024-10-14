@@ -38,9 +38,15 @@ exports.addAnimeInfoPost = [
       data.rating = Number(data.rating);
 
       const isCompleted = compareDate(data.completed_date, data.release_date);
-      if (isCompleted === true) data.status = "completed";
-      else if (isCompleted === false) data.status = "ongoing";
-      else data.status = "unknown";
+      console.log(isCompleted , typeof isCompleted)
+      if (isCompleted === true) {
+        data.status = "completed"
+        console.log("completed")
+      } else if (isCompleted === false) {
+        data.status = "ongoing"
+      } else {
+        data.status = "unknown";
+      }
       await dbClient.addAnimeData(data);
       res.redirect("/");
     }

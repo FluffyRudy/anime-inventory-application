@@ -1,5 +1,5 @@
 exports.compareDate = (firstDate, secondDate) => {
-  if (!firstDate && !secondDate) return null;
+  if (!firstDate || !secondDate) return null;
 
   const date1 = firstDate instanceof Date ? firstDate : new Date(firstDate);
   const date2 = secondDate instanceof Date ? secondDate : new Date(secondDate);
@@ -8,5 +8,5 @@ exports.compareDate = (firstDate, secondDate) => {
     throw new Error("Invalid date provided");
   }
 
-  return date1 < date2;
+  return date1 > date2;
 };

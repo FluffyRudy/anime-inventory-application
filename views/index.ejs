@@ -78,12 +78,34 @@
         .unknown {
             color: red;
         }
+
+        .completed,
+        .ongoing,
+        .unknown {
+          border-radius: 10px;
+          padding: 2px;
+        }
+
+        .completed {
+          background-color: #4CAF50;
+          color: black;
+        }
+
+        .ongoing {
+          background-color: #FF9800;
+          color: #000;
+        }
+
+        .unknown {
+          background-color: #F44336;
+          color: black;
+        }
     </style>
 </head>
 <body>
     <div class="container">
         <form action="/create" method="get">
-            <button style="display: block; margin: auto">Add Anime Date</button>
+            <button style="display: block; margin: auto; font-size: 1em; font-weight: bolder;">Add Anime Date</button>
         </form>
         <ul class="anime-info">
             <% function formatDate(date) { 
@@ -94,13 +116,14 @@
                 return `${year}-${month}-${day.padStart(2, '0')}`; 
             } %> 
             <% locals.animeSeries.forEach(anime => { 
-                const completed_date = locals.completed_date ? formatDate(locals.completed_date) : 'unknown'; 
+                const completed_date = anime.completed_date ? formatDate(anime.completed_date) : ''
                 const release_date = formatDate(anime.release_date); %>
                 <li class="anime-card">
                     <h2><%= anime.name %></h2>
                     <p>Mangaka: <%= anime.creator %></p>
                     <p>Released date: <%= release_date %></p>
                     <p>Completed date: <%= completed_date %></p>
+                    <p>Status: <span class="<%= anime.status %>"><%= anime.status %></span></p>
                     <p>Rating: <%= anime.rating %></p>
                 </li>
             <% }) %>

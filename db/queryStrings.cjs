@@ -1,4 +1,3 @@
-const { tables, dtypes } = require("./model.cjs");
 
 const tableExistsQuery = `
 SELECT EXISTS (
