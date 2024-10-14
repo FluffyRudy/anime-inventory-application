@@ -1,0 +1,9 @@
+<% if (locals.errors) { %>
+<div>
+  <ul>
+    <% locals.errors.forEach(error=> { %>
+    <li style="color: red"><%= error.msg %></li>
+    <% }) %>
+  </ul>
+</div>
+<% } %>

@@ -50,36 +50,24 @@ INSERT INTO genre
 const insertAnimeSeriesQuery = `
 INSERT INTO anime_series 
     (name, release_date, completed_date, status, creator, rating)
-    VALUES ($1, $2, $3, $4, $5, $6);
+    VALUES ($1, $2, $3, $4, $5, $6)
+    RETURNING id;
 `;
 
-/**
- * SQL query string to insert a new record into the anime_genre table.
- *
- * This query inserts the following fields:
- * - anime_id: The ID of the anime series (integer, foreign key referencing anime_series).
- * - genre_id: The ID of the genre (integer, foreign key referencing genre).
- *
- * Placeholders:
- * - $1: anime_id
- * - $2: genre_id
- *
- * @constant {string}
- */
-const insertAnimeGenreQuery = `
-INSERT INTO anime_genre 
-    (anime_id, genre_id)
-    VALUES ($1, $2);
-`;
 
 const selectAllAnimeSeriesQuery = `
 SELECT * FROM anime_series;
 `;
 
+const selectAllGenreQuery = `
+SELECT * FROM genre;
+`;
+
+
 module.exports = {
   tableExistsQuery,
   dtypeExistsQuery,
   insertAnimeSeriesQuery,
-  insertAnimeGenreQuery,
   selectAllAnimeSeriesQuery,
+  selectAllGenreQuery,
 };
