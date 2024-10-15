@@ -1,7 +1,7 @@
 const TABLES = {
   genre: "genre",
   animeSeries: "anime_series",
-  animeGenre: "ani0me_genre",
+  animeGenre: "anime_genre",
 };
 const DTYPES = { animeStatus: "anime_status" };
 
