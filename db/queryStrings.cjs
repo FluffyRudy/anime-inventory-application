@@ -16,9 +16,6 @@ SELECT EXISTS (
 );
 `;
 
-const genreValueExistQuery = `
-SELECT 1 AS VALUE FROM genre WHERE name = $1;
-`;
 
 const insertGenreQuery = `
 INSERT INTO genre
@@ -58,6 +55,22 @@ const selectAllAnimeSeriesQuery = `
 SELECT * FROM anime_series;
 `;
 
+const selectAllAnimeSeriesDataQuery = `
+SELECT 
+    anime_series.*, 
+    STRING_AGG(genre.name, ', ') AS genres
+FROM 
+    anime_series
+JOIN 
+    anime_genre ON anime_series.id = anime_genre.anime_id
+JOIN 
+    genre ON genre.id = anime_genre.genre_id 
+GROUP BY 
+    anime_series.id
+ORDER BY 
+    anime_series.name;
+`
+
 const selectAllGenreQuery = `
 SELECT * FROM genre;
 `;
@@ -69,5 +82,6 @@ module.exports = {
   insertAnimeSeriesQuery,
   selectAllAnimeSeriesQuery,
   selectAllGenreQuery,
-  insertGenreQuery
+  insertGenreQuery,
+  selectAllAnimeSeriesDataQuery
 };

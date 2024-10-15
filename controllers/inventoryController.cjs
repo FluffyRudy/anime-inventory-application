@@ -4,7 +4,8 @@ const { compareDate } = require("../utils/dateUtil.cjs");
 const validator = require("./validator.cjs");
 
 exports.ListAnimeSeriesGet = async (req, res) => {
-  const animeSeries = (await dbClient.getAllAnimeSeries()).rows;
+  const animeSeries = (await dbClient.getAllAnimeSeriesDate()).rows;
+  console.log(animeSeries)
   res.render("listAnime", { animeSeries });
 };
 

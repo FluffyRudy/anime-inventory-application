@@ -76,6 +76,11 @@ class DBClient {
     const res = await this.pool.query(query.selectAllAnimeSeriesQuery);
     return res;
   }
+
+  async getAllAnimeSeriesDate() {
+    const res = await this.pool.query(query.selectAllAnimeSeriesDataQuery);
+    return res;
+  }
   /**
    * Adds a new anime series to the database.
    *
