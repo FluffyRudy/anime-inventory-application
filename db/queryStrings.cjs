@@ -20,7 +20,7 @@ const genreValueExistQuery = `
 SELECT 1 AS VALUE FROM genre WHERE name = $1;
 `;
 
-const insertGenre = `
+const insertGenreQuery = `
 INSERT INTO genre
   (name) VALUES ($1);
 `;
@@ -69,4 +69,5 @@ module.exports = {
   insertAnimeSeriesQuery,
   selectAllAnimeSeriesQuery,
   selectAllGenreQuery,
+  insertGenreQuery
 };

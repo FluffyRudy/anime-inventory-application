@@ -25,7 +25,7 @@ class DBClient {
         .map((models) => models.every((modelInfo) => modelInfo.exists))
         .every((value) => value);
       if (!this.canQuery) {
-        const logValues = Object.values(res); 
+        const logValues = Object.values(res);
         for (const logs of logValues) {
           for (const log of logs) {
             if (!log.exists)
@@ -123,9 +123,9 @@ class DBClient {
       const anime_id = animeSeriesInsertion.rows[0].id;
       const genreAndIds = (await this.pool.query(query.selectAllGenreQuery)).rows;
       const matchingIds = []
-      
+
       for (let g of genre) {
-        for (let {name, id} of genreAndIds) {
+        for (let { name, id } of genreAndIds) {
           if (g === name) {
             matchingIds.push(`(${anime_id}, ${id})`)
           }
@@ -156,6 +156,14 @@ class DBClient {
     } else {
       const response = await this.pool.query(queryString);
       return response;
+    }
+  }
+
+  async addGenre(genre) {
+    try {
+      await this.pool.query(query.insertGenreQuery, [genre]);
+    } catch (error) {
+      console.error(error)
     }
   }
 }

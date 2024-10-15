@@ -35,14 +35,13 @@ exports.addAnimeInfoPost = [
       data.genre = !data.genre
         ? []
         : Array.isArray(data.genre)
-        ? data.genre
-        : [data.genre];
+          ? data.genre
+          : [data.genre];
       data.release_date ||= null;
       data.completed_date ||= null;
       data.rating = Number(data.rating);
 
       const isCompleted = compareDate(data.completed_date, data.release_date);
-      console.log(isCompleted, typeof isCompleted);
       if (isCompleted === true) {
         data.status = "completed";
         console.log("completed");
@@ -53,6 +52,50 @@ exports.addAnimeInfoPost = [
       }
       await dbClient.addAnimeData(data);
       res.redirect("/");
+    }
+  },
+];
+
+exports.addAnimeGenreGet = async (req, res) => {
+  const avilableGenres = (await dbClient.query(selectAllGenreQuery)).rows.map(
+    (genre) => genre.name
+  );
+  res.render("addGenre", { avilableGenres });
+};
+
+exports.addAnimeGenrePost = [
+  validator.genreInfoValidator,
+  async (req, res) => {
+    const validatedResult = validationResult(req);
+    const avilableGenres = (await dbClient.query(selectAllGenreQuery)).rows.map(
+      (genre) => genre.name
+    );
+    if (!validatedResult.isEmpty()) {
+      res.render('addGenre',
+        {
+          avilableGenres,
+          errors: validatedResult.array(),
+          value: req.body.genre
+        }
+      )
+    } else {
+      const genre = req.body.genre.toLowerCase()
+      if (!avilableGenres.includes(genre)) {
+        await dbClient.addGenre(genre);
+        res.redirect('/add-genre')
+      } else {
+        const genreExistError = {
+          msg: 'Genre already exists.',
+          param: 'genre',
+          location: 'body',
+        };
+        validatedResult.errors.push(genreExistError);
+        res.render('addGenre', {
+          avilableGenres,
+          errors: validatedResult.array(),
+          value: req.body.genre
+        })
+      }
     }
   },
 ];

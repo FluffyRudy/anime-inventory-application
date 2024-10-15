@@ -18,4 +18,13 @@ const animeInfoValidator = [
   body("genre").exists().withMessage("Select at least one genre"),
 ];
 
-module.exports = { animeInfoValidator };
+const genreInfoValidator = [
+  body("genre")
+    .isString().withMessage("genre must be string(internal error)")
+    .matches(/[a-zA-Z\s]/)
+    .withMessage("Genre: " + invalidCharacterError)
+    .isLength({ min: 3 })
+    .withMessage("Require at least 3 chracters long"),
+];
+
+module.exports = { animeInfoValidator, genreInfoValidator };

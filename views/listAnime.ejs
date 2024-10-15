@@ -105,9 +105,14 @@
 <body>
     <h1 style="text-align: center;">List Anime</h1>
     <div class="container">
-        <form action="/create" method="get">
-            <button style="display: block; margin: auto; font-size: 1em; font-weight: bolder;">Add Anime Date</button>
-        </form>
+        <div style="display: flex; justify-content: center; flex-wrap: wrap; gap: 1.5vmax;">
+            <form action="/create" method="get">
+                <button style="display: block; margin: auto; font-size: 1em; font-weight: bolder;">Add Anime Date</button>
+            </form>
+            <form action="/add-genre" method="get">
+                <button style="display: block; margin: auto; font-size: 1em; font-weight: bolder;">Add Genre</button>
+            </form>
+        </div>
         <ul class="anime-info">
             <% function formatDate(date) { 
                 const d = new Date(date); 

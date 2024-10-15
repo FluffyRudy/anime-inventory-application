@@ -63,9 +63,19 @@
         display: flex;
         flex-wrap: wrap;
         gap: 10px;
-        text-align: center;
       }
-    </style>
+      .genres div label {
+        display: flex;
+        align-items: center; 
+        flex: 1; 
+        white-space: nowrap;
+}
+
+      .genre-checkbox {
+        width: 20px; 
+        margin-right: 10px; 
+      }
+  </style>
   </head>
   <body>
     <div class="container">
@@ -92,7 +102,7 @@
                 <% const isChecked = locals.values.genre && locals.values.genre.includes(genre) %> 
               <label>
                 <input
-                  style="align-self: first baseline"
+                  style="align-self: first baseline;"
                   class="genre-checkbox"
                   type="checkbox"
                   name="genre"
