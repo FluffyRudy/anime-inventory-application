@@ -6,7 +6,7 @@ const validator = require("./validator.cjs");
 
 exports.ListAnimeSeriesGet = async (req, res) => {
   const animeSeries = (await dbClient.getAllAnimeSeries()).rows;
-  res.render("index", { animeSeries });
+  res.render("listAnime", { animeSeries });
 };
 
 exports.addAnimeInfoGet = async (req, res) => {
@@ -32,18 +32,22 @@ exports.addAnimeInfoPost = [
       });
     } else {
       const data = req.body;
-      data.genre = !data.genre ? [] : (Array.isArray(data.genre) ? data.genre : [data.genre]);
+      data.genre = !data.genre
+        ? []
+        : Array.isArray(data.genre)
+        ? data.genre
+        : [data.genre];
       data.release_date ||= null;
       data.completed_date ||= null;
       data.rating = Number(data.rating);
 
       const isCompleted = compareDate(data.completed_date, data.release_date);
-      console.log(isCompleted , typeof isCompleted)
+      console.log(isCompleted, typeof isCompleted);
       if (isCompleted === true) {
-        data.status = "completed"
-        console.log("completed")
+        data.status = "completed";
+        console.log("completed");
       } else if (isCompleted === false) {
-        data.status = "ongoing"
+        data.status = "ongoing";
       } else {
         data.status = "unknown";
       }
