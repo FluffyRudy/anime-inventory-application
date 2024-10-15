@@ -1,44 +1,59 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Anime List</title>
-    <link rel="stylesheet" href="css/listAnime.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Anime List</title>
+  <link rel="stylesheet" href="css/listAnime.css">
+  <link rel="stylesheet" href="css/header.css">
 </head>
 <body>
-    <h1 style="text-align: center;">List Anime</h1>
-    <div class="container">
-        <div style="display: flex; justify-content: center; flex-wrap: wrap; gap: 1.5vmax;">
-            <form action="/create" method="get">
-                <button style="display: block; margin: auto; font-size: 1em; font-weight: bolder;">Add Anime Date</button>
-            </form>
-            <form action="/add-genre" method="get">
-                <button style="display: block; margin: auto; font-size: 1em; font-weight: bolder;">Add Genre</button>
-            </form>
-        </div>
-        <ul class="anime-info">
-            <% function formatDate(date) { 
-                const d = new Date(date); 
-                const year = d.getFullYear(); 
-                const month = String(d.getMonth() + 1).padStart(2, '0'); 
-                const day = String(d.getDate()); 
-                return `${year}-${month}-${day.padStart(2, '0')}`; 
-            } %> 
-            <% locals.animeSeries.forEach(anime => { 
-                const completed_date = anime.completed_date ? formatDate(anime.completed_date) : ''
-                const release_date = formatDate(anime.release_date); %>
-                <li class="anime-card">
-                    <h2><%= anime.name %></h2>
-                    <p>Mangaka: <%= anime.creator %></p>
-                    <p style="text-transform: capitalize;">Genre: <%= anime.genres %></p>
-                    <p>Released date: <%= release_date %></p>
-                    <p>Completed date: <%= completed_date %></p>
-                    <p>Status: <span class="<%= anime.status %>"><%= anime.status %></span></p>
-                    <p>Rating: <%= anime.rating %></p>
-                </li>
-            <% }) %>
-        </ul>
-    </div>
+  <header>
+      <button class="toggle" onclick="toggleNavbar(this)">
+        <span class="line"></span>
+        <span class="line"></span>
+        <span class="line"></span>
+      </button>
+      <nav class="navbar">
+          <ul>
+              <li>
+                  <form action="/create" method="get">
+                      <button class="create-btn">Add Anime Date</button>
+                  </form>
+              </li>
+              <li>
+                  <form action="/add-genre" method="get">
+                      <button class="add-genre-btn">Add Genre</button>
+                  </form>
+              </li>
+          </ul>
+        </nav>
+  </header>
+  <h1 style="text-align: center;">List Anime</h1>
+  <div class="container">
+      <ul class="anime-info">
+          <% function formatDate(date) { 
+              const d = new Date(date); 
+              const year = d.getFullYear(); 
+              const month = String(d.getMonth() + 1).padStart(2, '0'); 
+              const day = String(d.getDate()); 
+              return `${year}-${month}-${day.padStart(2, '0')}`; 
+          } %> 
+          <% locals.animeSeries.forEach(anime => { 
+              const completed_date = anime.completed_date ? formatDate(anime.completed_date) : ''
+              const release_date = formatDate(anime.release_date); %>
+              <li class="anime-card">
+                  <h2><%= anime.name %></h2>
+                  <p>Mangaka: <%= anime.creator %></p>
+                  <p style="text-transform: capitalize;">Genre: <%= anime.genres %></p>
+                  <p>Released date: <%= release_date %></p>
+                  <p>Completed date: <%= completed_date %></p>
+                  <p>Status: <span class="<%= anime.status %>"><%= anime.status %></span></p>
+                  <p>Rating: <%= anime.rating %></p>
+              </li>
+          <% }) %>
+      </ul>
+  </div>
 </body>
+<script src="js/listAnime.js"></script>
 </html>
