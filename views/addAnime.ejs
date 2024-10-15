@@ -80,6 +80,7 @@
             -o-transition: border-color 0.3s; 
             transition: border-color 0.3s;
             height: 40px;
+            position: relative;
         }
 
         .genre-checkbox-list li:hover {
@@ -87,9 +88,10 @@
         }
 
         .genre-checkbox {
-            width: 20px;
-            margin-right: 8px; 
+            position: absolute;
+            display: none;
         }
+
     </style>
 </head>
 <body>
@@ -115,8 +117,9 @@
                     <ul class="genre-checkbox-list">
                         <% locals.genres.forEach(genre => { %>
                             <% const isChecked = locals.values.genre && locals.values.genre.includes(genre) %> 
-                            <li>
+                            <li onclick="toggleCheckBox(event, this)">
                                 <input
+                                    onclick="toggleCheckBox(event, this)"
                                     class="genre-checkbox"
                                     type="checkbox"
                                     name="genre"
@@ -133,6 +136,7 @@
 
             <label for="release_date">Release Date:</label>
             <input
+                required
                 type="date"
                 id="release_date"
                 name="release_date"
@@ -185,6 +189,16 @@
                     genreCheckboxSubParent.style.display = "block"; // Changed to 'block' for list display
                 }
             });
+        }
+
+        function toggleCheckBox(event, element) {
+            event.preventDefault()
+            const checkbox = element.querySelector('.genre-checkbox');
+            checkbox.checked = !checkbox.checked
+            if (checkbox.checked)
+                element.style.backgroundColor = 'lime';
+            else
+                element.style.backgroundColor = 'transparent';
         }
     </script>
 </body>
