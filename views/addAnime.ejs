@@ -80,7 +80,6 @@
             -o-transition: border-color 0.3s; 
             transition: border-color 0.3s;
             height: 40px;
-            position: relative;
         }
 
         .genre-checkbox-list li:hover {
@@ -88,10 +87,9 @@
         }
 
         .genre-checkbox {
-            position: absolute;
-            display: none;
+            width: 20px;
+            margin: 8px; 
         }
-
     </style>
 </head>
 <body>
@@ -117,9 +115,8 @@
                     <ul class="genre-checkbox-list">
                         <% locals.genres.forEach(genre => { %>
                             <% const isChecked = locals.values.genre && locals.values.genre.includes(genre) %> 
-                            <li onclick="toggleCheckBox(event, this)">
+                            <li>
                                 <input
-                                    onclick="toggleCheckBox(event, this)"
                                     class="genre-checkbox"
                                     type="checkbox"
                                     name="genre"
@@ -186,19 +183,9 @@
                     genreCheckboxSubParent.style.display = "none";
                 } else {
                     genreListToggleBtn.dataset.toggle = "1";
-                    genreCheckboxSubParent.style.display = "block"; // Changed to 'block' for list display
+                    genreCheckboxSubParent.style.display = "block";
                 }
             });
-        }
-
-        function toggleCheckBox(event, element) {
-            event.preventDefault()
-            const checkbox = element.querySelector('.genre-checkbox');
-            checkbox.checked = !checkbox.checked
-            if (checkbox.checked)
-                element.style.backgroundColor = 'lime';
-            else
-                element.style.backgroundColor = 'transparent';
         }
     </script>
 </body>
