@@ -21,6 +21,16 @@ h2 {
   color: #333;
 }
 
+li,
+ul {
+  background-color: transparent;
+  padding: 0;
+}
+
+form {
+  background-color: transparent;
+}
+
 input {
   width: 100%;
   border: 1px solid #ccc;

@@ -19,7 +19,7 @@ li {
   border: none;
   cursor: pointer;
   z-index: 10;
-  position: absolute;
+  position: fixed;
 }
 
 .line {
@@ -31,8 +31,7 @@ li {
   margin-top: 2px;
 }
 
-.create-btn,
-.add-genre-btn {
+.nav-button {
   display: block;
   font-size: min(2vmax, 16px);
   font-weight: bolder;
@@ -47,19 +46,16 @@ li {
   transition: background-color 0.3s, transform 0.2s;
 }
 
-.create-btn:hover,
-.add-genre-btn:hover {
+.nav-button:hover {
   background-color: #003399;
   transform: translateY(-2px);
 }
 
-.create-btn:active,
-.add-genre-btn:active {
+.nav-button:active {
   transform: translateY(1px);
 }
 
-.create-btn:focus,
-.add-genre-btn:focus {
+.nav-button:focus {
   outline: none;
   box-shadow: 0 0 0 3px rgba(255, 255, 0, 0.5);
 }
@@ -69,16 +65,16 @@ li {
 }
 
 .navbar {
-  position: absolute;
   left: 0;
   top: 0;
+  position: fixed;
   opacity: 0;
   transform: translateX(-100%);
   transition: opacity 0.3s ease-in, transform 0.3s ease-in,
     background-color 0s ease-in;
   pointer-events: none;
   background-color: #4caf50;
-  width: min(350px, 98vw);
+  width: min(500px, 98vw);
   height: 100vh;
 }
 

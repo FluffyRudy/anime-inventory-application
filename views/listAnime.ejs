@@ -8,27 +8,7 @@
   <link rel="stylesheet" href="css/header.css">
 </head>
 <body>
-  <header>
-      <button class="toggle" onclick="toggleNavbar(this)">
-        <span class="line"></span>
-        <span class="line"></span>
-        <span class="line"></span>
-      </button>
-      <nav class="navbar">
-          <ul>
-              <li>
-                  <form action="/create" method="get">
-                      <button class="create-btn">Add Anime Date</button>
-                  </form>
-              </li>
-              <li>
-                  <form action="/add-genre" method="get">
-                      <button class="add-genre-btn">Add Genre</button>
-                  </form>
-              </li>
-          </ul>
-        </nav>
-  </header>
+  <%- include("./partials/header.ejs")  %> 
   <h1 style="text-align: center;">List Anime</h1>
   <div class="container">
       <ul class="anime-info">
