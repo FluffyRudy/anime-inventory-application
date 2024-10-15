@@ -166,6 +166,11 @@ class DBClient {
       console.error(error)
     }
   }
+
+  async getAllGenre() {
+    const genres = await this.pool.query(query.selectAllGenreQuery);
+    return genres.rows.map(genre => genre.name);
+  }
 }
 
 module.exports = {

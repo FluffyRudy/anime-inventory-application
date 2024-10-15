@@ -1,6 +1,5 @@
 const { dbClient } = require("../db/dbClient.cjs");
 const { validationResult } = require("express-validator");
-const { selectAllGenreQuery } = require("../db/queryStrings.cjs");
 const { compareDate } = require("../utils/dateUtil.cjs");
 const validator = require("./validator.cjs");
 
@@ -10,9 +9,7 @@ exports.ListAnimeSeriesGet = async (req, res) => {
 };
 
 exports.addAnimeInfoGet = async (req, res) => {
-  const genres = (await dbClient.query(selectAllGenreQuery)).rows.map(
-    (genre) => genre.name
-  );
+  const genres = await dbClient.getAllGenre()
 
   res.render("addAnime", { genres, values: {} });
 };
@@ -22,9 +19,7 @@ exports.addAnimeInfoPost = [
   async (req, res) => {
     const validatedResult = validationResult(req);
     if (!validatedResult.isEmpty()) {
-      const genres = (await dbClient.query(selectAllGenreQuery)).rows.map(
-        (genre) => genre.name
-      );
+      const genres = await dbClient.getAllGenre();
       res.render("addAnime", {
         errors: validatedResult.array(),
         genres: genres,
@@ -57,9 +52,7 @@ exports.addAnimeInfoPost = [
 ];
 
 exports.addAnimeGenreGet = async (req, res) => {
-  const avilableGenres = (await dbClient.query(selectAllGenreQuery)).rows.map(
-    (genre) => genre.name
-  );
+  const avilableGenres = await dbClient.getAllGenre()
   res.render("addGenre", { avilableGenres });
 };
 
@@ -67,9 +60,7 @@ exports.addAnimeGenrePost = [
   validator.genreInfoValidator,
   async (req, res) => {
     const validatedResult = validationResult(req);
-    const avilableGenres = (await dbClient.query(selectAllGenreQuery)).rows.map(
-      (genre) => genre.name
-    );
+    const avilableGenres = await dbClient.getAllGenre()
     if (!validatedResult.isEmpty()) {
       res.render('addGenre',
         {
