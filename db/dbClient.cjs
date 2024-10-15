@@ -169,7 +169,7 @@ class DBClient {
 
   async getAllGenre() {
     const genres = await this.pool.query(query.selectAllGenreQuery);
-    return genres.rows.map(genre => genre.name);
+    return genres?.rows?.map(genre => genre.name).sort((a, b) => a.localeCompare(b)) || [];
   }
 }
 
