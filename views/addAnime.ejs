@@ -29,20 +29,7 @@
                 </button>
                 <div class="genre-checkbox-parent">
                     <ul class="genre-checkbox-list">
-                        <% locals.genres.forEach(genre => { %>
-                            <% const isChecked = locals.values.genre && locals.values.genre.includes(genre) %> 
-                            <li>
-                                <input
-                                    class="genre-checkbox"
-                                    type="checkbox"
-                                    name="genre"
-                                    value="<%= genre %>"
-                                    id="<%= genre %>"
-                                    <% if (isChecked) { %> checked <% } %>
-                                />
-                                <label class="genre-checkbox-label" for="<%= genre %>"><%= genre %></label>
-                            </li>
-                        <% }) %>
+                        <!-- dynamically rendered -->
                     </ul>
                 </div>
             </div>
@@ -105,5 +92,6 @@
         }
     </script>
 </body>
-<script src="js/listAnime.js"></script>
+<script src="/js/listAnime.js"></script>
+<script src="/js/getGenre.js"></script>
 </html>

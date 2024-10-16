@@ -26,7 +26,6 @@ exports.ListAnimeByPagination = async (req, res) => {
     (page - 1) * limit,
     page
   );
-  console.log(animeSeriesObj);
   renderAnimeList(res, animeSeriesObj);
 };
 
@@ -71,6 +70,11 @@ exports.addAnimeInfoPost = [
     }
   },
 ];
+
+exports.getAnimeGenre = async (req, res) => {
+  const avilableGenres = await dbClient.getAllGenre();
+  res.json(avilableGenres);
+};
 
 exports.addAnimeGenreGet = async (req, res) => {
   const avilableGenres = await dbClient.getAllGenre();

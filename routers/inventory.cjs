@@ -9,4 +9,5 @@ inventoryRouter.get("/create", inventoryController.addAnimeInfoGet);
 inventoryRouter.post("/create", inventoryController.addAnimeInfoPost);
 inventoryRouter.get("/add-genre", inventoryController.addAnimeGenreGet);
 inventoryRouter.post("/add-genre", inventoryController.addAnimeGenrePost);
+inventoryRouter.get("/get-genres", inventoryController.getAnimeGenre);
 module.exports = { inventoryRouter };
