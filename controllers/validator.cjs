@@ -16,12 +16,13 @@ const animeInfoValidator = [
     .withMessage("Length of create must be at least 2 character long"),
   body("rating").isNumeric().withMessage("Rating should be numeric"),
   body("genre").exists().withMessage("Select at least one genre"),
-  body("release_date").isDate().withMessage("Released date is required")
+  body("release_date").isDate().withMessage("Released date is required"),
 ];
 
 const genreInfoValidator = [
   body("genre")
-    .isString().withMessage("genre must be string(internal error)")
+    .isString()
+    .withMessage("genre must be string(internal error)")
     .matches(/[a-zA-Z\s]/)
     .withMessage("Genre: " + invalidCharacterError)
     .isLength({ min: 3 })

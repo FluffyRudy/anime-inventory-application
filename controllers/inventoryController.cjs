@@ -1,7 +1,12 @@
+const multer = require("multer");
 const { dbClient } = require("../db/dbClient.cjs");
 const { validationResult, param } = require("express-validator");
 const { compareDate } = require("../utils/dateUtil.cjs");
+const { uploadImage } = require("../services/imageHost.cjs");
 const validator = require("./validator.cjs");
+
+const storage = multer.memoryStorage();
+const upload = multer({ storage: storage });
 
 const limit = 4;
 
@@ -36,6 +41,7 @@ exports.addAnimeInfoGet = async (req, res) => {
 };
 
 exports.addAnimeInfoPost = [
+  upload.single("image"),
   validator.animeInfoValidator,
   async (req, res) => {
     const validatedResult = validationResult(req);
@@ -48,11 +54,22 @@ exports.addAnimeInfoPost = [
       });
     } else {
       const data = req.body;
+
+      if (req.file) {
+        const res = await uploadImage(req.file);
+        if (res.success)
+          data.image_url = res.data.image.url;
+        else
+          data.image_url = ''
+        console.log(res)
+      } else {
+        console.log("no image found")
+      }
       data.genre = !data.genre
         ? []
         : Array.isArray(data.genre)
-        ? data.genre
-        : [data.genre];
+          ? data.genre
+          : [data.genre];
       data.release_date ||= null;
       data.completed_date ||= null;
       data.rating = Number(data.rating);

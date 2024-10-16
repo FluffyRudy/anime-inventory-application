@@ -115,6 +115,7 @@ class DBClient {
       creator,
       rating,
       genre,
+      image_url
     } = data;
     const values = [
       name,
@@ -123,6 +124,7 @@ class DBClient {
       status,
       creator,
       rating,
+      image_url
     ];
     try {
       const animeSeriesInsertion = await this.pool.query(
@@ -143,8 +145,8 @@ class DBClient {
       }
       const animeGenreInsert = await this.pool.query(`
         INSERT INTO anime_genre (anime_id, genre_id) VALUES ${matchingIds.join(
-          ","
-        )}  
+        ","
+      )}  
       `);
     } catch (error) {
       console.error(error.message);

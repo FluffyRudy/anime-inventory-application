@@ -23,6 +23,7 @@
               const completed_date = anime.completed_date ? formatDate(anime.completed_date) : ''
               const release_date = formatDate(anime.release_date); %>
               <li class="anime-card">
+                <div>
                   <h2><%= anime.name %></h2>
                   <p>Mangaka: <%= anime.creator %></p>
                   <p style="text-transform: capitalize;">Genre: <%= anime.genres %></p>
@@ -30,6 +31,10 @@
                   <p>Completed date: <%= completed_date %></p>
                   <p>Status: <span class="<%= anime.status %>"><%= anime.status %></span></p>
                   <p>Rating: <%= anime.rating %></p>
+                </div>
+                <div class="anime-image">
+                  <img src="<%= anime.image_url %>" alt="thumbnail of anime">
+                </div>
               </li>
           <% }) %>
       </ul>

@@ -12,7 +12,7 @@
     <div class="container">
         <h2>Create Anime Series</h2>
         <%- include('./partials/errors.ejs') %>
-        <form action="/create" method="post">
+        <form action="/create" method="post" enctype="multipart/form-data">
             <label for="name">Name:</label>
             <input
                 type="text"
@@ -69,6 +69,9 @@
                 step="0.1"
                 value="<%= values.rating || '0.00' %>"
             />
+            
+            <label for="image">Upload an image:</label>
+            <input type="file" name="image" id="image" accept="image/*" />
 
             <button type="submit">Create Anime Series</button>
         </form>

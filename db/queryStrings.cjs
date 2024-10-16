@@ -43,8 +43,8 @@ INSERT INTO genre
  */
 const insertAnimeSeriesQuery = `
 INSERT INTO anime_series 
-    (name, release_date, completed_date, status, creator, rating)
-    VALUES ($1, $2, $3, $4, $5, $6)
+    (name, release_date, completed_date, status, creator, rating, image_url)
+    VALUES ($1, $2, $3, $4, $5, $6, $7)
     RETURNING id;
 `;
 
@@ -74,11 +74,11 @@ SELECT * FROM genre;
 `;
 
 module.exports = {
-  tableExistsQuery,
-  dtypeExistsQuery,
-  insertAnimeSeriesQuery,
-  selectAllAnimeSeriesQuery,
-  selectAllGenreQuery,
-  insertGenreQuery,
-  selectAllAnimeSeriesDataQuery,
+    tableExistsQuery,
+    dtypeExistsQuery,
+    insertAnimeSeriesQuery,
+    selectAllAnimeSeriesQuery,
+    selectAllGenreQuery,
+    insertGenreQuery,
+    selectAllAnimeSeriesDataQuery,
 };
