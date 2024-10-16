@@ -24,7 +24,7 @@
 
             <label>Genres:</label>
             <div class="genres">
-                <button type="button" class="genre-list-toggle" data-toggle="0">
+                <button type="button" class="genre-list-toggle" data-toggle="1">
                     Show Genre
                 </button>
                 <div class="genre-checkbox-parent">
@@ -81,9 +81,13 @@
         const genreCheckboxSubParent = document.querySelector(
             ".genre-checkbox-parent"
         );
-        if (genreListToggleBtn && genreCheckboxSubParent) {
-            genreListToggleBtn.addEventListener("click", () => {
-                const toggleValue = genreListToggleBtn.dataset.toggle;
+
+        function handleGenresDisplay() {
+            const genreListToggleBtn = document.querySelector(".genre-list-toggle");
+            const genreCheckboxSubParent = document.querySelector(
+                ".genre-checkbox-parent"
+            );
+            const toggleValue = genreListToggleBtn.dataset.toggle;
                 if (toggleValue === "1") {
                     genreListToggleBtn.dataset.toggle = "0";
                     genreCheckboxSubParent.style.display = "none";
@@ -91,8 +95,16 @@
                     genreListToggleBtn.dataset.toggle = "1";
                     genreCheckboxSubParent.style.display = "block";
                 }
-            });
         }
+
+        window.onload = () => handleGenresDisplay()
+
+        genreListToggleBtn.addEventListener("click", () => {
+            handleGenresDisplay();
+        });
+        
+
+
     </script>
 </body>
 <script src="/js/listAnime.js"></script>
