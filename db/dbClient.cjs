@@ -28,8 +28,7 @@ class DBClient {
         const logValues = Object.values(res);
         for (const logs of logValues) {
           for (const log of logs) {
-            if (!log.exists)
-              this.errorLogs.push(log)
+            if (!log.exists) this.errorLogs.push(log);
           }
         }
       }
@@ -72,15 +71,20 @@ class DBClient {
     return modelCheckResult;
   }
 
-  async getAllAnimeSeries() {
-    const res = await this.pool.query(query.selectAllAnimeSeriesQuery);
-    return res;
+  async getAllAnimeSeriesDate(limit, offset, page) {
+    const res = await this.pool.query(query.selectAllAnimeSeriesDataQuery, [
+      limit,
+      offset,
+    ]);
+    return {
+      rows: res.rows || [],
+      rowCount: res.rowCount,
+      nextPage: res.rowCount === limit ? page + 1 : page,
+      currentPage: page,
+      prevPage: Math.max(page - 1, 1),
+    };
   }
 
-  async getAllAnimeSeriesDate() {
-    const res = await this.pool.query(query.selectAllAnimeSeriesDataQuery);
-    return res;
-  }
   /**
    * Adds a new anime series to the database.
    *
@@ -126,20 +130,22 @@ class DBClient {
         values
       );
       const anime_id = animeSeriesInsertion.rows[0].id;
-      const genreAndIds = (await this.pool.query(query.selectAllGenreQuery)).rows;
-      const matchingIds = []
+      const genreAndIds = (await this.pool.query(query.selectAllGenreQuery))
+        .rows;
+      const matchingIds = [];
 
       for (let g of genre) {
         for (let { name, id } of genreAndIds) {
           if (g === name) {
-            matchingIds.push(`(${anime_id}, ${id})`)
+            matchingIds.push(`(${anime_id}, ${id})`);
           }
         }
       }
       const animeGenreInsert = await this.pool.query(`
-        INSERT INTO anime_genre (anime_id, genre_id) VALUES ${matchingIds.join(',')}  
-      `)
-
+        INSERT INTO anime_genre (anime_id, genre_id) VALUES ${matchingIds.join(
+          ","
+        )}  
+      `);
     } catch (error) {
       console.error(error.message);
     }
@@ -168,13 +174,17 @@ class DBClient {
     try {
       await this.pool.query(query.insertGenreQuery, [genre]);
     } catch (error) {
-      console.error(error)
+      console.error(error);
     }
   }
 
   async getAllGenre() {
     const genres = await this.pool.query(query.selectAllGenreQuery);
-    return genres?.rows?.map(genre => genre.name).sort((a, b) => a.localeCompare(b)) || [];
+    return (
+      genres?.rows
+        ?.map((genre) => genre.name)
+        .sort((a, b) => a.localeCompare(b)) || []
+    );
   }
 }
 

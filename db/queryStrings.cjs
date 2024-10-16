@@ -1,4 +1,3 @@
-
 const tableExistsQuery = `
 SELECT EXISTS (
       SELECT 1                                     
@@ -15,7 +14,6 @@ SELECT EXISTS (
     WHERE typname = $1 AND typtype = 'e'
 );
 `;
-
 
 const insertGenreQuery = `
 INSERT INTO genre
@@ -50,7 +48,6 @@ INSERT INTO anime_series
     RETURNING id;
 `;
 
-
 const selectAllAnimeSeriesQuery = `
 SELECT * FROM anime_series;
 `;
@@ -68,13 +65,13 @@ JOIN
 GROUP BY 
     anime_series.id
 ORDER BY 
-    anime_series.name;
-`
+    anime_series.name
+LIMIT $1 OFFSET $2;
+`;
 
 const selectAllGenreQuery = `
 SELECT * FROM genre;
 `;
-
 
 module.exports = {
   tableExistsQuery,
@@ -83,5 +80,5 @@ module.exports = {
   selectAllAnimeSeriesQuery,
   selectAllGenreQuery,
   insertGenreQuery,
-  selectAllAnimeSeriesDataQuery
+  selectAllAnimeSeriesDataQuery,
 };
