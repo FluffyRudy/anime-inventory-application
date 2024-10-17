@@ -96,3 +96,51 @@ button:hover {
   width: 20px;
   margin: 8px;
 }
+
+label {
+  display: block;
+  margin-top: 15px;
+  font-weight: bold;
+}
+
+input[type="text"],
+input[type="number"],
+input[type="date"],
+input[type="file"] {
+  width: 100%;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+input[type="number"] {
+  padding: 10px;
+  margin-bottom: 15px;
+}
+
+input[type="date"] {
+  padding: 10px;
+  margin-bottom: 15px;
+}
+
+input[type="file"] {
+  margin-bottom: 15px;
+}
+
+button {
+  padding: 10px 15px;
+  background-color: #28a745;
+  color: white;
+  font-weight: bolder;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #218838;
+}
+
+input:not([type="checkbox"]) {
+  padding: 10px;
+  margin-bottom: 15px;
+}

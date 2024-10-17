@@ -8,7 +8,7 @@
   <link rel="stylesheet" href="/css/header.css">
 </head>
 <body>
-  <%- include("./partials/header.ejs")  %> 
+  <%- include("./partials/header.ejs") %> 
   <h1 style="text-align: center;">List Anime</h1>
   <div class="container">
       <ul class="anime-info">
@@ -20,20 +20,36 @@
               return `${year}-${month}-${day.padStart(2, '0')}`; 
           } %> 
           <% locals.animeSeries.forEach(anime => { 
-              const completed_date = anime.completed_date ? formatDate(anime.completed_date) : ''
-              const release_date = formatDate(anime.release_date); %>
+              const completed_date = anime.completed_date ? formatDate(anime.completed_date) : 'unknown';
+              const release_date = formatDate(anime.release_date); 
+              const episodes = anime.episodes || 'unknown';
+              const duration = anime.duration || 'unknown';
+              const age_rating = anime.age_rating || 'unknown';
+              const score = anime.score || 'unknown';
+              const scored_by = anime.scored_by || 'unknown';
+              const rank = anime.rank || 'unknown';
+              const popularity = anime.popularity || 'unknown';
+              const favorites = anime.favorites || 'unknown'; %>
               <li class="anime-card">
                 <div>
-                  <h2><%= anime.name %></h2>
-                  <p>Mangaka: <%= anime.creator %></p>
-                  <p style="text-transform: capitalize;">Genre: <%= anime.genres %></p>
+                  <h2><%= anime.name || 'unknown' %></h2>
+                  <p>Mangaka: <%= anime.creator || 'unknown' %></p>
+                  <p style="text-transform: capitalize;">Genre: <%= anime.genres || 'unknown' %></p>
                   <p>Released date: <%= release_date %></p>
                   <p>Completed date: <%= completed_date %></p>
-                  <p>Status: <span class="<%= anime.status %>"><%= anime.status %></span></p>
-                  <p>Rating: <%= anime.rating %></p>
+                  <p>Status: <span class="<%= anime.status || 'unknown' %>"><%= anime.status || 'unknown' %></span></p>
+                  <p>Rating: <%= anime.rating || 'unknown' %></p>
+                  <p>Episodes: <%= episodes %></p>
+                  <p>Duration: <%= duration %></p>
+                  <p>Age Rating: <%= age_rating %></p>
+                  <p>Score: <%= score %></p>
+                  <p>Scored By: <%= scored_by %></p>
+                  <p>Rank: <%= rank %></p>
+                  <p>Popularity: <%= popularity %></p>
+                  <p>Favorites: <%= favorites %></p>
                 </div>
                 <div class="anime-image">
-                  <img src="<%= anime.image_url %>" alt="thumbnail of anime">
+                  <img src="<%= anime.image_url || 'default-image-url.jpg' %>" alt="thumbnail of anime">
                 </div>
               </li>
           <% }) %>

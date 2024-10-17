@@ -115,17 +115,35 @@ class DBClient {
       creator,
       rating,
       genre,
-      image_url
+      image_url,
+      episodes,
+      duration,
+      age_rating,
+      scored_by,
+      rank,
+      popularity,
+      favorites,
+      synopsis,
     } = data;
+
     const values = [
       name,
       release_date,
-      completed_date,
       status,
+      completed_date,
       creator,
       rating,
-      image_url
+      image_url,
+      episodes || null,
+      duration || "unknown",
+      age_rating || "unknown",
+      scored_by || null,
+      rank || null,
+      popularity || null,
+      favorites || null,
+      synopsis || "No synopsis available",
     ];
+
     try {
       const animeSeriesInsertion = await this.pool.query(
         query.insertAnimeSeriesQuery,
@@ -145,8 +163,8 @@ class DBClient {
       }
       const animeGenreInsert = await this.pool.query(`
         INSERT INTO anime_genre (anime_id, genre_id) VALUES ${matchingIds.join(
-        ","
-      )}  
+          ","
+        )}  
       `);
     } catch (error) {
       console.error(error.message);

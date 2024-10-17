@@ -100,11 +100,6 @@ li {
 .page-nav {
   display: flex;
   justify-content: space-around;
-}
-
-.page-nav {
-  display: flex;
-  justify-content: space-around;
   padding: 10px 20px;
   background-color: #2e2e2e;
   border-radius: 8px;

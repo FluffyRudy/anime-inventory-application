@@ -56,21 +56,30 @@ exports.addAnimeInfoPost = [
       const data = req.body;
 
       if (req.file) {
-        const res = await uploadImage(req.file);
-        if (res.success) data.image_url = res.data.image.url;
+        const uploadRes = await uploadImage(req.file);
+        if (uploadRes.success) data.image_url = uploadRes.data.image.url;
         else data.image_url = "";
-        console.log(res);
       } else {
-        console.log("no image found");
+        console.error("no image found");
       }
+
       data.genre = !data.genre
         ? []
         : Array.isArray(data.genre)
         ? data.genre
         : [data.genre];
+
+      data.episodes = Number(data.episodes) || null;
+      data.duration = data.duration || "unknown";
+      data.rating = Number(data.rating) || null;
+      data.scored_by = Number(data.scored_by) || null;
+      data.rank = Number(data.rank) || null;
+      data.popularity = Number(data.popularity) || null;
+      data.favorites = Number(data.favorites) || null;
+      data.synopsis = data.synopsis || "No synopsis available";
+
       data.release_date ||= null;
       data.completed_date ||= null;
-      data.rating = Number(data.rating);
 
       const isCompleted = isCompletedAfterRelease(
         data.completed_date,
@@ -83,6 +92,7 @@ exports.addAnimeInfoPost = [
       } else {
         data.status = "unknown";
       }
+
       await dbClient.addAnimeData(data);
       res.redirect("/");
     }
