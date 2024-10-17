@@ -74,7 +74,7 @@ li {
     background-color 0s ease-in;
   pointer-events: none;
   background-color: #4caf50;
-  width: min(500px, 98vw);
+  width: min(800px, 98vw);
   height: 100vh;
 }
 
