@@ -1,7 +1,7 @@
 const multer = require("multer");
 const { dbClient } = require("../db/dbClient.cjs");
 const { validationResult, param } = require("express-validator");
-const { compareDate } = require("../utils/dateUtil.cjs");
+const { isCompletedAfterRelease } = require("../utils/dateUtil.cjs");
 const { uploadImage } = require("../services/imageHost.cjs");
 const validator = require("./validator.cjs");
 
@@ -57,27 +57,28 @@ exports.addAnimeInfoPost = [
 
       if (req.file) {
         const res = await uploadImage(req.file);
-        if (res.success)
-          data.image_url = res.data.image.url;
-        else
-          data.image_url = ''
-        console.log(res)
+        if (res.success) data.image_url = res.data.image.url;
+        else data.image_url = "";
+        console.log(res);
       } else {
-        console.log("no image found")
+        console.log("no image found");
       }
       data.genre = !data.genre
         ? []
         : Array.isArray(data.genre)
-          ? data.genre
-          : [data.genre];
+        ? data.genre
+        : [data.genre];
       data.release_date ||= null;
       data.completed_date ||= null;
       data.rating = Number(data.rating);
 
-      const isCompleted = compareDate(data.completed_date, data.release_date);
+      const isCompleted = isCompletedAfterRelease(
+        data.completed_date,
+        data.release_date
+      );
       if (isCompleted === true) {
         data.status = "completed";
-      } else if (isCompleted === false) {
+      } else if (isCompleted === false && data.completed_date) {
         data.status = "ongoing";
       } else {
         data.status = "unknown";
