@@ -30,26 +30,34 @@
               const rank = anime.rank || 'unknown';
               const popularity = anime.popularity || 'unknown';
               const favorites = anime.favorites || 'unknown'; %>
+              
               <li class="anime-card">
-                <div>
+                <div class="anime-head-image">
                   <h2><%= anime.name || 'unknown' %></h2>
-                  <p>Mangaka: <%= anime.creator || 'unknown' %></p>
-                  <p style="text-transform: capitalize;">Genre: <%= anime.genres || 'unknown' %></p>
-                  <p>Released date: <%= release_date %></p>
-                  <p>Completed date: <%= completed_date %></p>
-                  <p>Status: <span class="<%= anime.status || 'unknown' %>"><%= anime.status || 'unknown' %></span></p>
-                  <p>Rating: <%= anime.rating || 'unknown' %></p>
-                  <p>Episodes: <%= episodes %></p>
-                  <p>Duration: <%= duration %></p>
-                  <p>Age Rating: <%= age_rating %></p>
-                  <p>Score: <%= score %></p>
-                  <p>Scored By: <%= scored_by %></p>
-                  <p>Rank: <%= rank %></p>
-                  <p>Popularity: <%= popularity %></p>
-                  <p>Favorites: <%= favorites %></p>
-                </div>
-                <div class="anime-image">
                   <img src="<%= anime.image_url || 'default-image-url.jpg' %>" alt="thumbnail of anime">
+                </div>
+                <div class="anime-info-wrapper">
+                  <div>
+                    <p>Mangaka: <%= anime.creator || 'unknown' %></p>
+                    <p style="text-transform: capitalize;">Genre: <%= anime.genres || 'unknown' %></p>
+                    <p>Released date: <%= release_date %></p>
+                    <p>Completed date: <%= completed_date %></p>
+                    <p>Status: <span class="<%= anime.status || 'unknown' %>"><%= anime.status || 'unknown' %></span></p>
+                    <p>Rating: <%= anime.rating || 'unknown' %></p>
+                  </div>
+                  <div>
+                    <p>Episodes: <%= episodes %></p>
+                    <p>Duration: <%= duration %></p>
+                    <p>Age Rating: <%= age_rating %></p>
+                    <p>Score: <%= score %></p>
+                    <p>Scored By: <%= scored_by %></p>
+                    <p>Rank: <%= rank %></p>
+                    <p>Popularity: <%= popularity %></p>
+                    <p>Favorites: <%= favorites %></p>
+                    <div>
+                      <p>Synopsis: <%= anime.synopsis || '' %></p>
+                    </div>
+                  </div>
                 </div>
               </li>
           <% }) %>
