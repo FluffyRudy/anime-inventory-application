@@ -4,15 +4,15 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Anime Search</title>
+<link rel="stylesheet" href="/css/header.css">
 <link rel="stylesheet" href="/css/animeSearch.css">
 <link rel="stylesheet" href="/css/animeCard.css">
 </head>
 <body>
-<header>
-    <h1>Anime Search</h1>
-</header>
-
 <%- include("./partials/errors.ejs") %> 
+<%- include("./partials/header.ejs") %> 
+
+<h1 style="display: block; text-align: center;">Anime Search</h1>
 
 <form action="/search" method="post" class="search-form">
     <div class="search-fields">
@@ -99,4 +99,5 @@
 </form>
 <%- include("./partials/animeData.ejs", {data: locals.animeData})  %> 
 </body>
+<script src="/js/listAnime.js"></script>
 </html>
