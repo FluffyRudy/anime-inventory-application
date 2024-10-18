@@ -7,12 +7,16 @@
 }
 
 .anime-card {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
   background-color: #3c3c3c;
   border-radius: 8px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
   width: min(350px, 97vw);
   cursor: pointer;
   transition: transform 0.3s, box-shadow 0.3s;
+  position: relative;
 }
 
 .anime-card:hover {
@@ -58,5 +62,18 @@
 }
 
 .anime-synopsis.active {
-  display: flex;
+  display: block;
+}
+
+.add-to-collection {
+  margin-top: auto;
+  width: 90%;
+  height: auto;
+  background-color: #4e4e4e;
+  border-radius: 10px;
+  box-sizing: border-box;
+  padding: 10px 0;
+  color: white;
+  font-weight: bolder;
+  cursor: pointer;
 }

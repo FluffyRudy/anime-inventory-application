@@ -18,12 +18,16 @@
                     <div class="anime-synopsis">
                         <p><%= anime.synopsis %></p>
                     </div>
+                    <% if (typeof showAddToCollection !== 'undefined' && showAddToCollection) { %>
+                        <button type="button" style="width: 100%; height: auto;" class="add-to-collection">Add to collection</button>
+                    <% } %>
                 </div>
             <% }) %>
         </div>
     </main>
     <script>
         const animeCards = document.querySelectorAll('.anime-card');
+        const addToCollection = document.querySelectorAll(".add-to-collection")
     
         animeCards.forEach(card => {
             card.addEventListener('click', () => {
@@ -42,6 +46,11 @@
                 synopsis.classList.remove('active');
             });
         });
+
+        addToCollection.forEach(btn => {
+            btn.addEventListener('click', (e) => {
+            e.stopPropagation();
+           })
+        })
     </script>
-    
-<% } %>    
+<% } %>
