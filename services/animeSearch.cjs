@@ -20,7 +20,11 @@ class AnimeSearchService {
     const url = new URL("anime", this.api);
     url.search = searchParam.toString();
     const response = await axios.get(url.toString());
-    return response.data;
+    const { pagination, data } = response.data;
+    return {
+      pagination,
+      data: data.map((animeInfo) => getRequiredInfo(animeInfo)),
+    };
   }
 
   errorPromise(msg) {
@@ -30,6 +34,49 @@ class AnimeSearchService {
       return msg;
     });
   }
+}
+
+function getRequiredInfo(animeData) {
+  if (!animeData) return {};
+  const name = animeData.title_english;
+  const release_date = animeData.aired.from;
+  const completed_date = animeData.aired.to;
+  const status = animeData.status.airing
+    ? "completed"
+    : animeData.status.airing === false
+    ? "ongoing"
+    : "unknown";
+  const creator = animeData.studios?.map((studio) => studio.name).join(", ");
+  const rating = animeData.score;
+  const image_url = animeData.images.jpg.image_url;
+  const episodes = animeData.episodes;
+  const duration = animeData.duration;
+  const age_rating = animeData.rating;
+  const scored_by = animeData.scored_by;
+  const rank = animeData.rank;
+  const popularity = animeData.popularity;
+  const favorites = animeData.favorites;
+  const synopsis = animeData.synopsis;
+  const type = animeData.type;
+
+  return {
+    name,
+    release_date,
+    completed_date,
+    status,
+    creator,
+    rating,
+    image_url,
+    episodes,
+    duration,
+    age_rating,
+    scored_by,
+    rank,
+    popularity,
+    favorites,
+    synopsis,
+    type,
+  };
 }
 
 module.exports = { animeSearchService: new AnimeSearchService() };

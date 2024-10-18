@@ -173,27 +173,14 @@ exports.searchAnimePost = [
       return;
     }
     const reqBody = cleanObject(req.body);
+    console.log(req.body);
     const { search, ...filters } = reqBody;
     const data = await animeSearchService.searchAnimeByName(search, filters);
-    const {
-      name,
-      release_date,
-      completed_date,
-      status,
-      creator,
-      rating,
-      genre,
-      image_url,
-      episodes,
-      duration,
-      age_rating,
-      scored_by,
-      rank,
-      popularity,
-      favorites,
-      synopsis,
-    } = data["data"][0];
-    console.log(data);
-    res.render("searchAnime", { ratings, genres, animeData: data || [] });
+    res.render("searchAnime", {
+      ratings,
+      genres,
+      animeData: data.data,
+      pagination: data.pagination,
+    });
   },
 ];

@@ -1,0 +1,64 @@
+body {
+  font-family: Arial, sans-serif;
+  background-color: #2e2e2e;
+  color: white;
+  margin: 0;
+  padding: 0;
+}
+
+header {
+  background-color: #444;
+  text-align: center;
+  padding: 20px 0;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+}
+
+h1 {
+  margin: 0;
+  font-size: 2.5rem;
+}
+
+.search-form {
+  width: min(600px, 90%);
+  margin: 20px auto;
+  padding: 20px;
+  background-color: #3c3c3c;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+.search-fields {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
+}
+
+input[type="text"],
+input[type="search"],
+select {
+  padding: 10px;
+  border: 1px solid #555;
+  border-radius: 4px;
+  background-color: #444;
+  color: white;
+  font-size: 1rem;
+}
+
+input[type="text"]:focus,
+input[type="search"]:focus,
+select:focus {
+  border-color: #777;
+}
+
+button[type="submit"] {
+  padding: 10px 20px;
+  background-color: #555;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+button[type="submit"]:hover {
+  background-color: #666;
+}

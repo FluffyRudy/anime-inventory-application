@@ -6,62 +6,15 @@
   <title>Anime List</title>
   <link rel="stylesheet" href="/css/listAnime.css">
   <link rel="stylesheet" href="/css/header.css">
+  <link rel="stylesheet" href="/css/animeCard.css">
 </head>
 <body>
   <%- include("./partials/header.ejs") %> 
   <h1 style="text-align: center;">List Anime</h1>
   <div class="container">
-      <ul class="anime-info">
-          <% function formatDate(date) { 
-              const d = new Date(date); 
-              const year = d.getFullYear(); 
-              const month = String(d.getMonth() + 1).padStart(2, '0'); 
-              const day = String(d.getDate()); 
-              return `${year}-${month}-${day.padStart(2, '0')}`; 
-          } %> 
-          <% locals.animeSeries.forEach(anime => { 
-              const completed_date = anime.completed_date ? formatDate(anime.completed_date) : 'unknown';
-              const release_date = formatDate(anime.release_date); 
-              const episodes = anime.episodes || 'unknown';
-              const duration = anime.duration || 'unknown';
-              const age_rating = anime.age_rating || 'unknown';
-              const score = anime.score || 'unknown';
-              const scored_by = anime.scored_by || 'unknown';
-              const rank = anime.rank || 'unknown';
-              const popularity = anime.popularity || 'unknown';
-              const favorites = anime.favorites || 'unknown'; %>
-              
-              <li class="anime-card">
-                <h2 class="heading"><%= anime.name || 'unknown' %></h2>
-                <div class="anime-head-image">
-                  <img src="<%= anime.image_url || 'default-image-url.jpg' %>" alt="thumbnail of anime">
-                </div>
-                <div class="anime-info-wrapper">
-                  <div>
-                    <p>Mangaka: <%= anime.creator || 'unknown' %></p>
-                    <p style="text-transform: capitalize;">Genre: <%= anime.genres || 'unknown' %></p>
-                    <p>Released date: <%= release_date %></p>
-                    <p>Completed date: <%= completed_date %></p>
-                    <p>Status: <span class="<%= anime.status || 'unknown' %>"><%= anime.status || 'unknown' %></span></p>
-                    <p>Rating: <%= anime.rating || 'unknown' %></p>
-                  </div>
-                  <div>
-                    <p>Episodes: <%= episodes %></p>
-                    <p>Duration: <%= duration %></p>
-                    <p>Age Rating: <%= age_rating %></p>
-                    <p>Score: <%= score %></p>
-                    <p>Scored By: <%= scored_by %></p>
-                    <p>Rank: <%= rank %></p>
-                    <p>Popularity: <%= popularity %></p>
-                    <p>Favorites: <%= favorites %></p>
-                    <div class="synopsis-wrapper">
-                      <p>Synopsis: <%= anime.synopsis || '' %></p>
-                    </div>
-                  </div>
-                </div>
-              </li>
-          <% }) %>
-      </ul>
+    <ul class="anime-info">
+        <%- include("./partials/animeData.ejs", { data: locals.animeSeries }) %>
+    </ul>
   </div>
   <div class="page-nav">
     <a href="/page/<%= locals.prevPage %>">previous</a>

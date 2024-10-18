@@ -17,7 +17,7 @@
  * - **R+**: Mild Nudity
  * - **Rx**: Hentai
  * @property {('title'|'start_date'|'end_date'|'episodes'|'score'|'scored_by'|'rank'|'popularity'|'members'|'favorites')} [order_by] - Field to order the results by.
- * @property {('asc'|'desc')} [sortBy] - Sort the results in ascending or descending order.
+ * @property {('asc'|'desc')} [sort] - Sort the results in ascending or descending order.
  */
 
 const ratings = [
@@ -44,7 +44,7 @@ const defaultFilters = {
   sfw: true,
   rating: undefined,
   order_by: "popularity",
-  sortBy: "desc",
+  sort: "desc",
 };
 
 module.exports = { ratings, defaultFilters };
