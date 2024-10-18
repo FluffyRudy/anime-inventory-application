@@ -2,13 +2,16 @@ const multer = require("multer");
 const { dbClient } = require("../db/dbClient.cjs");
 const { validationResult, param } = require("express-validator");
 const { isCompletedAfterRelease } = require("../utils/dateUtil.cjs");
+const { cleanObject } = require("../utils/cleanObject.cjs");
 const { uploadImage } = require("../services/imageHost.cjs");
+const { animeSearchService } = require("../services/animeSearch.cjs");
+const { ratings, defaultFilters } = require("../constants/animeFilters.cjs");
 const validator = require("./validator.cjs");
 
 const storage = multer.memoryStorage();
 const upload = multer({ storage: storage });
 
-const limit = 4;
+const limit = 6;
 
 const renderAnimeList = (res, animeSeriesObj) => {
   res.render("listAnime", {
@@ -104,9 +107,18 @@ exports.getAnimeGenre = async (req, res) => {
   res.json(avilableGenres);
 };
 
+exports.getAnimeRatings = async (req, res) => {
+  const getRatings = () =>
+    new Promise((resolve) => {
+      resolve(ratings);
+    });
+  const response = await getRatings();
+  res.json(response);
+};
+
 exports.addAnimeGenreGet = async (req, res) => {
   const avilableGenres = await dbClient.getAllGenre();
-  res.render("addGenre", { avilableGenres });
+  res.render("addGenre", { avilableGenres, ratings, defaultFilters });
 };
 
 exports.addAnimeGenrePost = [
@@ -139,5 +151,49 @@ exports.addAnimeGenrePost = [
         });
       }
     }
+  },
+];
+
+exports.searchAnimeGet = async (req, res) => {
+  const genres = await dbClient.getAllGenre();
+  res.render("searchAnime", { ratings, genres });
+};
+
+exports.searchAnimePost = [
+  validator.searchQueryValidator,
+  async (req, res) => {
+    const validatedResult = validationResult(req);
+    const genres = await dbClient.getAllGenre();
+    if (!validatedResult.isEmpty()) {
+      res.render("searchAnime", {
+        ratings,
+        genres,
+        errors: validatedResult.array(),
+      });
+      return;
+    }
+    const reqBody = cleanObject(req.body);
+    const { search, ...filters } = reqBody;
+    const data = await animeSearchService.searchAnimeByName(search, filters);
+    const {
+      name,
+      release_date,
+      completed_date,
+      status,
+      creator,
+      rating,
+      genre,
+      image_url,
+      episodes,
+      duration,
+      age_rating,
+      scored_by,
+      rank,
+      popularity,
+      favorites,
+      synopsis,
+    } = data["data"][0];
+    console.log(data);
+    res.render("searchAnime", { ratings, genres, animeData: data || [] });
   },
 ];

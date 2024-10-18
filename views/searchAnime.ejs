@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <%- include("./partials/errors.ejs") %> 
+    <form action="/search" method="post">
+        <div class="search-fields">
+            <div class="form-field">
+                <label for="search">Enter anime name or words</label>
+                <input type="text" id="search" name="search" required>
+            </div>
+            <div>
+                <button type="submit">Search</button>
+            </div>
+            <div class="form-field">
+                <select  name="ratings" id="ratings">
+                    <option value="rating" disabled selected>Select Rating</option>
+                    <% ratings.forEach(rating => { %>
+                        <option value="<%= rating.value %>"><%= rating.label %></option>
+                    <% }) %>
+                </select>
+            </div>
+        </div>
+        <div class="form-field">
+            <select name="genre" id="genres">
+                <option value="genre" disabled selected>Select genre</option>
+                <% genres.forEach(genre => { %>
+                    <option value="<%= genre %> "><%= genre %> </option>
+                <% }) %>
+            </select>
+        </div>
+    </form>
+</body>
+</html>

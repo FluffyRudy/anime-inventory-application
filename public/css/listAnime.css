@@ -7,22 +7,11 @@ body {
   line-height: 1.6;
 }
 
-h2 {
-  color: #4caf50;
-  font-size: 24px;
-  font-weight: 700;
-  margin-bottom: 10px;
-}
-
 p {
   font-size: 16px;
   color: #ccc;
   margin: 5px 0;
   line-height: 1.6;
-}
-
-h2,
-p {
   margin: 0 0 15px 0;
 }
 
@@ -51,11 +40,17 @@ li {
   border-radius: 8px;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
   margin: 10px;
-  flex: 1 1 300px;
+  flex: 1 1 400px;
   transition: transform 0.2s;
   display: flex;
   flex-direction: column;
-  justify-content: space-around;
+  align-items: center;
+  max-width: min(97vw, 535px);
+}
+
+.anime-card .heading {
+  min-height: 50px;
+  align-self: center;
 }
 
 .anime-card > div {
@@ -76,6 +71,11 @@ li {
   height: auto;
 }
 
+.anime-info-wrapper p {
+  max-width: 200px;
+  word-break: break-all;
+}
+
 .anime-card:hover {
   transform: scale(1.02);
 }
@@ -89,6 +89,12 @@ li {
 .anime-info-wrapper div p span {
   font-weight: bold;
   font-size: 16px;
+}
+
+.synopsis-wrapper {
+  white-space: no-wrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
 }
 
 .completed {

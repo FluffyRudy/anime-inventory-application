@@ -32,8 +32,8 @@
               const favorites = anime.favorites || 'unknown'; %>
               
               <li class="anime-card">
+                <h2 class="heading"><%= anime.name || 'unknown' %></h2>
                 <div class="anime-head-image">
-                  <h2><%= anime.name || 'unknown' %></h2>
                   <img src="<%= anime.image_url || 'default-image-url.jpg' %>" alt="thumbnail of anime">
                 </div>
                 <div class="anime-info-wrapper">
@@ -54,7 +54,7 @@
                     <p>Rank: <%= rank %></p>
                     <p>Popularity: <%= popularity %></p>
                     <p>Favorites: <%= favorites %></p>
-                    <div>
+                    <div class="synopsis-wrapper">
                       <p>Synopsis: <%= anime.synopsis || '' %></p>
                     </div>
                   </div>

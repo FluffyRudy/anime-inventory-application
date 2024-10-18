@@ -29,7 +29,18 @@
                 </button>
                 <div class="genre-checkbox-parent">
                     <ul class="genre-checkbox-list">
-                        <!-- dynamically rendered genres -->
+                        <% locals.genres.map((genre) => { %>
+                            <li>
+                                <input
+                                    class="genre-checkbox"
+                                    type="checkbox"
+                                    name="genre"
+                                    value="<%= genre %>"
+                                    id="<%= genre %>"
+                                />
+                                <label class="genre-checkbox-label" for="<%= genre %>"><%= genre %></label>
+                            </li>
+                         <% }) %>
                     </ul>
                 </div>
             </div>
@@ -162,5 +173,4 @@
     </script>
 </body>
 <script src="/js/listAnime.js"></script>
-<script src="/js/getGenre.js"></script>
 </html>

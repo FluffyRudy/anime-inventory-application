@@ -29,4 +29,16 @@ const genreInfoValidator = [
     .withMessage("Require at least 3 chracters long"),
 ];
 
-module.exports = { animeInfoValidator, genreInfoValidator };
+const searchQueryValidator = [
+  body("search")
+    .exists()
+    .withMessage("Search query must exist")
+    .isLength({ min: 3 })
+    .withMessage("Minimum 3 character required for seach value"),
+];
+
+module.exports = {
+  animeInfoValidator,
+  genreInfoValidator,
+  searchQueryValidator,
+};
