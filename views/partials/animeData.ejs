@@ -24,18 +24,24 @@
     </main>
     <script>
         const animeCards = document.querySelectorAll('.anime-card');
-
+    
         animeCards.forEach(card => {
             card.addEventListener('click', () => {
                 const synopsis = card.querySelector('.anime-synopsis');
                 const isActive = synopsis.classList.contains('active');
-
+    
                 document.querySelectorAll('.anime-synopsis').forEach(syn => syn.classList.remove('active'));
-
+    
                 if (!isActive) {
                     synopsis.classList.add('active');
                 }
             });
+    
+            card.addEventListener('mouseleave', () => {
+                const synopsis = card.querySelector('.anime-synopsis');
+                synopsis.classList.remove('active');
+            });
         });
     </script>
+    
 <% } %>    
