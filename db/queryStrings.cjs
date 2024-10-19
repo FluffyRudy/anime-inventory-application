@@ -68,6 +68,13 @@ INSERT INTO anime_series
     RETURNING id;
 `;
 
+const addToAnimeCollectionQuery = `
+INSERT INTO anime_collections 
+    (anime_series_id, name, description)
+    VALUES ($1, $2, $3)
+    RETURNING id;
+`;
+
 const selectAllAnimeSeriesQuery = `
 SELECT * FROM anime_series;
 `;
@@ -97,6 +104,7 @@ module.exports = {
   tableExistsQuery,
   dtypeExistsQuery,
   insertAnimeSeriesQuery,
+  addToAnimeCollectionQuery,
   selectAllAnimeSeriesQuery,
   selectAllGenreQuery,
   insertGenreQuery,

@@ -1,6 +1,6 @@
 const multer = require("multer");
 const { dbClient } = require("../db/dbClient.cjs");
-const { validationResult, param } = require("express-validator");
+const { validationResult, param, body } = require("express-validator");
 const { isCompletedAfterRelease } = require("../utils/dateUtil.cjs");
 const { cleanObject } = require("../utils/cleanObject.cjs");
 const { uploadImage } = require("../services/imageHost.cjs");
@@ -72,14 +72,14 @@ exports.addAnimeInfoPost = [
         ? data.genre
         : [data.genre];
 
-      data.episodes = Number(data.episodes) || null;
-      data.duration = data.duration || "unknown";
-      data.rating = Number(data.rating) || null;
-      data.scored_by = Number(data.scored_by) || null;
-      data.rank = Number(data.rank) || null;
-      data.popularity = Number(data.popularity) || null;
-      data.favorites = Number(data.favorites) || null;
-      data.synopsis = data.synopsis || "No synopsis available";
+      data.episodes = Number(data.episodes);
+      data.duration = data.duration;
+      data.rating = Number(data.rating);
+      data.scored_by = Number(data.scored_by);
+      data.rank = Number(data.rank);
+      data.popularity = Number(data.popularity);
+      data.favorites = Number(data.favorites);
+      data.synopsis = data.synopsis;
 
       data.release_date ||= null;
       data.completed_date ||= null;
@@ -124,6 +124,7 @@ exports.addAnimeGenreGet = async (req, res) => {
 exports.addAnimeGenrePost = [
   validator.genreInfoValidator,
   async (req, res) => {
+    console.log(req.body);
     const validatedResult = validationResult(req);
     const avilableGenres = await dbClient.getAllGenre();
     if (!validatedResult.isEmpty()) {
@@ -173,7 +174,6 @@ exports.searchAnimePost = [
       return;
     }
     const reqBody = cleanObject(req.body);
-    console.log(req.body);
     const { search, ...filters } = reqBody;
     const data = await animeSearchService.searchAnimeByName(search, filters);
     res.render("searchAnime", {
@@ -182,5 +182,19 @@ exports.searchAnimePost = [
       animeData: data.data,
       pagination: data.pagination,
     });
+  },
+];
+
+exports.AddCollectionPost = [
+  validator.animeInfoValidator,
+  async (req, res) => {
+    req.body.genre = req.body.genre.split(/,\s* /);
+    const validatedResult = validationResult(req);
+    if (!validatedResult.isEmpty()) {
+      res.json(validatedResult.array());
+      return;
+    }
+    const insertCollection = await dbClient.addAnimeData(req.body, true);
+    res.json(req.body);
   },
 ];

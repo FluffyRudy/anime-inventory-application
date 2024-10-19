@@ -21,6 +21,7 @@ class AnimeSearchService {
     url.search = searchParam.toString();
     const response = await axios.get(url.toString());
     const { pagination, data } = response.data;
+    console.log(data[0]);
     return {
       pagination,
       data: data.map((animeInfo) => getRequiredInfo(animeInfo)),
@@ -38,13 +39,13 @@ class AnimeSearchService {
 
 function getRequiredInfo(animeData) {
   if (!animeData) return {};
-  const name = animeData.title_english;
+  const name = animeData.title_english || animeData.title;
   const release_date = animeData.aired.from;
   const completed_date = animeData.aired.to;
-  const status = animeData.status.airing
-    ? "completed"
-    : animeData.status.airing === false
+  const status = animeData.airing
     ? "ongoing"
+    : animeData.airing === false
+    ? "completed"
     : "unknown";
   const creator = animeData.studios?.map((studio) => studio.name).join(", ");
   const rating = animeData.score;
@@ -56,8 +57,9 @@ function getRequiredInfo(animeData) {
   const rank = animeData.rank;
   const popularity = animeData.popularity;
   const favorites = animeData.favorites;
-  const synopsis = animeData.synopsis;
+  const synopsis = animeData.synopsis?.replace(/\[.*?\]/g, "");
   const type = animeData.type;
+  const genres = animeData.genres.map((elem) => elem.name).join(", ") || "";
 
   return {
     name,
@@ -76,6 +78,7 @@ function getRequiredInfo(animeData) {
     favorites,
     synopsis,
     type,
+    genre: genres,
   };
 }
 

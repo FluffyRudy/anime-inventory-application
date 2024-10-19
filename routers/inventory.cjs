@@ -12,5 +12,5 @@ inventoryRouter.post("/search", inventoryController.searchAnimePost);
 inventoryRouter.get("/add-genre", inventoryController.addAnimeGenreGet);
 inventoryRouter.post("/add-genre", inventoryController.addAnimeGenrePost);
 inventoryRouter.get("/get-genres", inventoryController.getAnimeGenre);
-
+inventoryRouter.post("/collection/add", inventoryController.AddCollectionPost);
 module.exports = { inventoryRouter };

@@ -51,9 +51,9 @@
   background: rgba(0, 0, 0, 0.9);
   display: none;
   padding: 20px;
-  z-index: 999;
   overflow-y: auto;
   box-sizing: border-box;
+  font-weight: bolder;
 }
 
 .anime-synopsis p {
@@ -75,5 +75,17 @@
   padding: 10px 0;
   color: white;
   font-weight: bolder;
+  cursor: pointer;
+}
+
+dialog {
+  position: relative;
+  width: min(300px, 97vw);
+}
+
+dialog #close-dialog {
+  position: absolute;
+  top: 0;
+  right: 0;
   cursor: pointer;
 }

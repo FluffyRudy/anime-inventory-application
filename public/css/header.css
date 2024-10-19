@@ -2,6 +2,7 @@ header {
   position: absolute;
   top: 0;
   left: 0;
+  z-index: 99;
 }
 
 header,
@@ -18,17 +19,19 @@ li {
   background: transparent;
   border: none;
   cursor: pointer;
-  z-index: 10;
   position: fixed;
+  z-index: 100;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
 }
 
 .line {
-  display: block;
-  width: 30px;
   height: 5px;
-  background: linear-gradient(135deg, yellow, #0044cc);
+  width: 30px;
+  background: #fff;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
-  margin-top: 2px;
+  transition: background-color 0.2s ease, transform 0.2s ease;
 }
 
 .nav-button {
@@ -85,4 +88,14 @@ li {
   border-radius: 0 10px 10px 0;
   background-color: #000;
   color: wheat;
+}
+
+.toggle:hover .line {
+  background: aqua;
+  transform: scale(1.1);
+}
+
+.toggle:hover {
+  transform: scale(1.2);
+  gap: 3px;
 }
