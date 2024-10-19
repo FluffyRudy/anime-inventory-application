@@ -1,4 +1,5 @@
 const axios = require("axios");
+const { choice } = require("../utils/random.cjs");
 
 require("dotenv").config();
 
@@ -27,10 +28,12 @@ class AnimeSearchService {
     };
   }
 
-  async searchAnimeByUrl(animeUrl) {
-    if (!this.api) return await this.errorPromise("API service not found");
-    if (!animeUrl) return await this.errorPromise("No URL provided");
-
+  async searchRandomAnime() {
+    if (!process.env.ANIME_GET_SERVIC_MULTI) {
+      return await this.errorPromise("API service not found");
+    }
+    const animeUrls = process.env.ANIME_GET_SERVIC_MULTI.split(",");
+    const animeUrl = choice(animeUrls);
     try {
       const url = new URL(animeUrl);
       url.searchParams.set("limit", AnimeSearchService.limit);
