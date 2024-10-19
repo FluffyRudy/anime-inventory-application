@@ -14,7 +14,7 @@ const upload = multer({ storage: storage });
 const limit = 6;
 
 const renderAnimeList = (res, animeSeriesObj) => {
-  res.render("listAnime", {
+  res.render("listAnimeCollection", {
     animeSeries: animeSeriesObj.rows,
     nextPage: animeSeriesObj.nextPage,
     currentPage: animeSeriesObj.currentPage,

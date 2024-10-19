@@ -48,7 +48,7 @@ addToCollection.forEach((btn) => {
 
     await waitForDialogClose();
 
-    if (collection.collectionName && collection.collectionDescription) {
+    if (collection.collectionName) {
       postData(e, collection).then(async (res) => {
         console.log(await res.json());
       });
