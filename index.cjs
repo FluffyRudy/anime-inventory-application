@@ -12,6 +12,7 @@ app.use(express.static(join(__dirname, "public")));
 app.set("views", resolve(__dirname, "views"));
 app.set("view engine", "ejs");
 app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
 
 app.use("/", inventoryRouter);
 

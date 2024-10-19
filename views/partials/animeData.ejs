@@ -1,0 +1,57 @@
+<% if (data && data.length > 0) { %>
+<main>
+  <% include('./errors.ejs') %> 
+  <div class="anime-container">
+    <% data.forEach(anime => { %>
+    <div class="anime-card"">
+      <img src="<%= anime.image_url %>" alt="<%= anime.name %>" />
+      <h2><%= anime.name %></h2>
+      <p>
+        <strong>Release Date:</strong> <%= new
+        Date(anime.release_date).toLocaleDateString() %>
+      </p>
+      <p>
+        <strong>Completed Date:</strong> <%= new
+        Date(anime.completed_date).toLocaleDateString() %>
+      </p>
+      <p><strong>Genres:</strong>
+        <%= anime.genre || anime.genres %> 
+      </p>
+      <p><strong>Episodes:</strong> <%= anime.episodes %></p>
+      <p><strong>Duration:</strong> <%= anime.duration %></p>
+      <p><strong>Rating:</strong> <%= anime.rating %></p>
+      <p><strong>Favorites:</strong> <%= anime.favorites %></p>
+      <p><strong>Type:</strong><%= anime.type %></p>
+      <p><strong>Status:</strong>  <%= anime.status %></p>
+      <p><strong>Creator:</strong> <%= anime.creator %></p>
+      <p><strong>Age Rating:</strong> <%= anime.age_rating %></p>
+      <div class="anime-synopsis">
+        <p><%= anime.synopsis %></p>
+      </div>
+      <% if (typeof showAddToCollection !== 'undefined' && showAddToCollection)
+      { %>
+      <button
+        type="button"
+        style="width: 100%; height: auto"
+        class="add-to-collection"
+        data-animeinfo="<%= JSON.stringify(anime) %> "
+      >
+        Add to collection
+      </button>
+      <% } %>
+    </div>
+    <% }) %>
+  </div>
+</main>
+<dialog closed>
+  <label for="collection-name">
+    <input type="text" id="collection-name" />
+  </label>
+  <label for="collection-desc">
+    <input type="text" id="collection-desc" />
+  </label>
+  <button id="close-dialog">X</button>
+  <button id="dialog-ok">Add</button>
+</dialog>
+<script src="/js/animeData.js"></script>
+<% } %>

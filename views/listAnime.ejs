@@ -6,38 +6,15 @@
   <title>Anime List</title>
   <link rel="stylesheet" href="/css/listAnime.css">
   <link rel="stylesheet" href="/css/header.css">
+  <link rel="stylesheet" href="/css/animeCard.css">
 </head>
 <body>
-  <%- include("./partials/header.ejs")  %> 
+  <%- include("./partials/header.ejs") %> 
   <h1 style="text-align: center;">List Anime</h1>
   <div class="container">
-      <ul class="anime-info">
-          <% function formatDate(date) { 
-              const d = new Date(date); 
-              const year = d.getFullYear(); 
-              const month = String(d.getMonth() + 1).padStart(2, '0'); 
-              const day = String(d.getDate()); 
-              return `${year}-${month}-${day.padStart(2, '0')}`; 
-          } %> 
-          <% locals.animeSeries.forEach(anime => { 
-              const completed_date = anime.completed_date ? formatDate(anime.completed_date) : ''
-              const release_date = formatDate(anime.release_date); %>
-              <li class="anime-card">
-                <div>
-                  <h2><%= anime.name %></h2>
-                  <p>Mangaka: <%= anime.creator %></p>
-                  <p style="text-transform: capitalize;">Genre: <%= anime.genres %></p>
-                  <p>Released date: <%= release_date %></p>
-                  <p>Completed date: <%= completed_date %></p>
-                  <p>Status: <span class="<%= anime.status %>"><%= anime.status %></span></p>
-                  <p>Rating: <%= anime.rating %></p>
-                </div>
-                <div class="anime-image">
-                  <img src="<%= anime.image_url %>" alt="thumbnail of anime">
-                </div>
-              </li>
-          <% }) %>
-      </ul>
+    <ul class="anime-info">
+        <%- include("./partials/animeData.ejs", { data: locals.animeSeries }) %>
+    </ul>
   </div>
   <div class="page-nav">
     <a href="/page/<%= locals.prevPage %>">previous</a>

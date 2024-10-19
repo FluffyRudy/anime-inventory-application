@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Anime Search</title>
+<link rel="stylesheet" href="/css/header.css">
+<link rel="stylesheet" href="/css/animeSearch.css">
+<link rel="stylesheet" href="/css/animeCard.css">
+</head>
+<body>
+<%- include("./partials/errors.ejs") %> 
+<%- include("./partials/header.ejs") %> 
+
+<h1 style="display: block; text-align: center;">Anime Search</h1>
+
+<form action="/search" method="post" class="search-form">
+    <div class="search-fields">
+        <label for="search">Enter anime name or words</label>
+        <div class="form-field">
+            <input type="text" id="search" name="search" required>
+        </div>
+
+        <div class="form-field">
+            <label for="ratings">Select Rating</label>
+            <select name="ratings" id="ratings">
+                <option value="" disabled selected>Select Rating</option>
+                <% ratings.forEach(rating => { %>
+                    <option value="<%= rating.value %>"><%= rating.label %></option>
+                <% }) %>
+            </select>
+        </div>
+
+        <div class="form-field">
+            <label for="genres">Select Genre</label>
+            <select name="genre" id="genres">
+                <option value="" disabled selected>Select Genre</option>
+                <% genres.forEach(genre => { %>
+                    <option value="<%= genre %>"><%= genre %></option>
+                <% }) %>
+            </select>
+        </div>
+
+        <div class="form-field">
+            <label for="min_score">Min Rating (0-10)</label>
+            <input type="number" id="min_score" name="min_score" min="0" max="10" step="0.1">
+        </div>
+
+        <div class="form-field">
+            <label for="max_score">Max Rating (0-10)</label>
+            <input type="number" id="max_score" name="max_score" min="0" max="10" step="0.1">
+        </div>
+
+        <div class="form-field">
+            <label for="start_date">Start Date</label>
+            <input type="date" id="start_date" name="start_date">
+        </div>
+
+        <div class="form-field">
+            <label for="end_date">End Date</label>
+            <input type="date" id="end_date" name="end_date">
+        </div>
+
+        <div class="form-field">
+            <label for="order_by">Order By</label>
+            <select name="order_by" id="order_by">
+                <option value="" selected disabled>Select order option</option>
+                <option value="title">Title</option>
+                <option value="start_date">Start Date</option>
+                <option value="end_date">End Date</option>
+                <option value="episodes">Episodes</option>
+                <option value="score">Score</option>
+                <option value="scored_by">Scored By</option>
+                <option value="rank">Rank</option>
+                <option value="popularity">Popularity</option>
+                <option value="members">Members</option>
+                <option value="favorites">Favorites</option>
+            </select>
+        </div>
+
+        <div class="form-field">
+            <label for="sort">Sort By</label>
+            <select name="sort" id="sort">
+                <option value="" selected disabled>select sort option</option>
+                <option value="asc">Ascending</option>
+                <option value="desc">Descending</option>
+            </select>
+        </div>
+
+        <div class="form-field">
+            <label for="sfw">Safe for Work (SFW)</label>
+            <input type="checkbox" id="sfw" name="sfw" value="true" checked>
+        </div>
+
+        <div>
+            <button type="submit">Search</button>
+        </div>
+    </div>
+</form>
+<%- include("./partials/animeData.ejs", {data: locals.animeData, showAddToCollection: true})  %> 
+</body>
+<script src="/js/listAnime.js"></script>
+</html>

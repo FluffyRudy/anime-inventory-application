@@ -26,25 +26,52 @@ INSERT INTO genre
  * This query inserts the following fields:
  * - name: The name of the anime series (string).
  * - release_date: The release date of the anime series (date).
- * - completed_date: The date the anime series was completed (date, nullable).
  * - status: The current status of the anime series (string).
+ * - completed_date: The date the anime series was completed (date, nullable).
  * - creator: The creator of the anime series (string).
  * - rating: The rating of the anime series (numeric, between 0 and 10).
+ * - image_url: The URL of the anime series image (string).
+ * - episodes: The number of episodes in the anime series (integer, nullable).
+ * - duration: The duration of each episode (string, default "unknown").
+ * - age_rating: The age rating of the anime series (string, default "unknown").
+ * - scored_by: The number of users who rated the anime series (integer, nullable).
+ * - rank: The rank of the anime series (integer, nullable).
+ * - popularity: The popularity score of the anime series (integer, nullable).
+ * - favorites: The number of users who favorited the anime series (integer, nullable).
+ * - synopsis: A brief description of the anime series (string, default "No synopsis available").
  *
  * Placeholders:
  * - $1: name
  * - $2: release_date
- * - $3: completed_date
- * - $4: status
+ * - $3: status
+ * - $4: completed_date
  * - $5: creator
  * - $6: rating
+ * - $7: image_url
+ * - $8: episodes
+ * - $9: duration
+ * - $10: age_rating
+ * - $11: scored_by
+ * - $12: rank
+ * - $13: popularity
+ * - $14: favorites
+ * - $15: synopsis
  *
  * @constant {string}
  */
+
 const insertAnimeSeriesQuery = `
 INSERT INTO anime_series 
-    (name, release_date, completed_date, status, creator, rating, image_url)
-    VALUES ($1, $2, $3, $4, $5, $6, $7)
+    (name, release_date, status, completed_date, creator, rating, image_url, 
+     episodes, duration, age_rating, scored_by, rank, popularity, favorites, synopsis)
+    VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15)
+    RETURNING id;
+`;
+
+const addToAnimeCollectionQuery = `
+INSERT INTO anime_collections 
+    (anime_series_id, name, description)
+    VALUES ($1, $2, $3)
     RETURNING id;
 `;
 
@@ -74,11 +101,12 @@ SELECT * FROM genre;
 `;
 
 module.exports = {
-    tableExistsQuery,
-    dtypeExistsQuery,
-    insertAnimeSeriesQuery,
-    selectAllAnimeSeriesQuery,
-    selectAllGenreQuery,
-    insertGenreQuery,
-    selectAllAnimeSeriesDataQuery,
+  tableExistsQuery,
+  dtypeExistsQuery,
+  insertAnimeSeriesQuery,
+  addToAnimeCollectionQuery,
+  selectAllAnimeSeriesQuery,
+  selectAllGenreQuery,
+  insertGenreQuery,
+  selectAllAnimeSeriesDataQuery,
 };

@@ -9,8 +9,8 @@ body {
 .container {
   max-width: min(1000px, 97vw);
   margin: auto;
-  background: white;
-  color: #000;
+  background: #3a3a3a;
+  color: #fff;
   padding: 20px;
   border-radius: 8px;
   -webkit-box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
@@ -18,7 +18,9 @@ body {
 }
 
 h2 {
-  color: #333;
+  color: #fff;
+  text-align: center;
+  font-weight: bolder;
 }
 
 li,
@@ -29,12 +31,6 @@ ul {
 
 form {
   background-color: transparent;
-}
-
-input {
-  width: 100%;
-  border: 1px solid #ccc;
-  border-radius: 4px;
 }
 
 input:not([type="checkbox"]) {
@@ -95,4 +91,65 @@ button:hover {
 .genre-checkbox {
   width: 20px;
   margin: 8px;
+}
+
+label {
+  display: block;
+  margin-top: 15px;
+  font-weight: bold;
+}
+
+input[type="text"],
+input[type="number"],
+input[type="date"],
+input[type="file"] {
+  width: 100%;
+  border-radius: 4px;
+  background-color: #4e4e4e;
+  color: #fff;
+  border: none;
+  outline: none;
+}
+
+input[type="number"] {
+  padding: 10px;
+  margin-bottom: 15px;
+}
+
+input[type="date"] {
+  padding: 10px;
+  margin-bottom: 15px;
+}
+
+input[type="file"] {
+  margin-bottom: 15px;
+}
+
+button {
+  padding: 10px 15px;
+  background-color: #28a745;
+  color: white;
+  font-weight: bolder;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #218838;
+}
+
+input:not([type="checkbox"]) {
+  padding: 10px;
+  margin-bottom: 15px;
+}
+
+textarea {
+  width: 100%;
+  height: 100px;
+  font-family: "Courier New", Courier, monospace;
+}
+
+input:focus {
+  outline: 2px double lime;
 }
