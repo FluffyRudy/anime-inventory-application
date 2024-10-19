@@ -3,16 +3,16 @@ const axios = require("axios");
 require("dotenv").config();
 
 class AnimeSearchService {
+  static limit = 10;
   constructor() {
     this.api = process.env.ANIME_GET_SERVICES;
-    this.limit = 10;
   }
 
   async searchAnimeByName(name, filters = {}) {
     if (!this.api) return await this.errorPromise("API service not found");
     if (!name) return await this.errorPromise("No query provided");
 
-    filters.limit = 10;
+    filters.limit = AnimeSearchService.limit;
     const searchParam = new URLSearchParams({
       q: name,
       ...filters,
@@ -21,11 +21,26 @@ class AnimeSearchService {
     url.search = searchParam.toString();
     const response = await axios.get(url.toString());
     const { pagination, data } = response.data;
-    console.log(data[0]);
     return {
       pagination,
       data: data.map((animeInfo) => getRequiredInfo(animeInfo)),
     };
+  }
+
+  async searchAnimeByUrl(animeUrl) {
+    if (!this.api) return await this.errorPromise("API service not found");
+    if (!animeUrl) return await this.errorPromise("No URL provided");
+
+    try {
+      const url = new URL(animeUrl);
+      url.searchParams.set("limit", AnimeSearchService.limit);
+      const response = await axios.get(url.toString());
+      const animeData = response.data;
+      return getRequiredInfo(animeData);
+    } catch (error) {
+      console.error("Error fetching anime by URL", error);
+      return this.errorPromise("Error fetching anime data");
+    }
   }
 
   errorPromise(msg) {
