@@ -250,6 +250,11 @@ class DBClient {
         .sort((a, b) => a.localeCompare(b)) || []
     );
   }
+
+  async endConnection() {
+    await this.pool.end();
+    this.canQuery = false;
+  }
 }
 
 module.exports = {
