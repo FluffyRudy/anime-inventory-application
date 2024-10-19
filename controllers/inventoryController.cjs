@@ -13,7 +13,7 @@ const upload = multer({ storage: storage });
 
 const limit = 6;
 
-const renderAnimeList = (res, animeSeriesObj) => {
+const renderAnimeCollectionsList = (res, animeSeriesObj) => {
   res.render("listAnimeCollection", {
     animeSeries: animeSeriesObj.rows,
     nextPage: animeSeriesObj.nextPage,
@@ -22,19 +22,19 @@ const renderAnimeList = (res, animeSeriesObj) => {
   });
 };
 
-exports.ListAnimeSeriesGet = async (req, res) => {
+exports.ListAnimeCollectionsGet = async (req, res) => {
   const animeSeriesObj = await dbClient.getAllAnimeSeriesDate(limit, 0, 1);
-  renderAnimeList(res, animeSeriesObj);
+  renderAnimeCollectionsList(res, animeSeriesObj);
 };
 
-exports.ListAnimeByPagination = async (req, res) => {
+exports.ListAnimeCollectionByPagination = async (req, res) => {
   const page = Math.max(Number(req.params.page) || 1, 1);
   const animeSeriesObj = await dbClient.getAllAnimeSeriesDate(
     limit,
     (page - 1) * limit,
     page
   );
-  renderAnimeList(res, animeSeriesObj);
+  renderAnimeCollectionsList(res, animeSeriesObj);
 };
 
 exports.addAnimeInfoGet = async (req, res) => {
