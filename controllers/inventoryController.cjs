@@ -234,9 +234,13 @@ exports.AddCollectionPost = [
       res.json(validatedResult.array());
       return;
     }
-    const imageUploadResponse = await uploadImageUrl(req.body.image_url);
-    req.body.url = imageUploadResponse.data.image.url;
-    const insertCollection = await dbClient.addAnimeData(req.body, true);
-    res.json(req.body);
+    try {
+      const imageUploadResponse = await uploadImageUrl(req.body.image_url);
+      req.body.url = imageUploadResponse.data.image.url;
+      await dbClient.addAnimeData(req.body, true);
+      res.json({ success: true });
+    } catch (error) {
+      res.json({ success: false });
+    }
   },
 ];
