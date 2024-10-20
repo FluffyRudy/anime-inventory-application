@@ -43,6 +43,12 @@
     <% }) %>
   </div>
 </main>
+<% if (locals.hasPagination) { %>
+  <div class="page-nav">
+    <a href="<%= locals.next %>">next</a>
+    <a href="<%= locals.prev %>">Previous</a>
+  </div>
+<% } %>
 <dialog closed>
   <label for="collection-name">
     <input type="text" id="collection-name" />

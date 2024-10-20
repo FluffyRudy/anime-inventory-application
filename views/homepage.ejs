@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="/css/listAnime.css">
+    <link rel="stylesheet" href="/css/header.css">
+    <link rel="stylesheet" href="/css/animeCard.css">
+</head>
+<body>
+    <%- include("./partials/header.ejs") %> 
+    <h1>Show data</h1>
+    <%- include("./partials/animeData.ejs", {data: locals.animeData, showAddToCollection: true})  %> 
+</body>
+</html>

@@ -10,7 +10,7 @@ function randint(start, end) {
     error.name = "Invalid range";
     throw error;
   }
-  return Math.floor(start + (end - start + 1) * Math.random());
+  return Math.floor(start + (end - start) * Math.random());
 }
 
 /**
@@ -19,7 +19,7 @@ function randint(start, end) {
  * @returns {any}
  */
 function choice(list) {
-  const randomIndex = randint(0, list.length - 1);
+  const randomIndex = randint(0, list.length);
   return list[randomIndex];
 }
 

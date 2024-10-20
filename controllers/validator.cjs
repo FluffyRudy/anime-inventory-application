@@ -7,16 +7,21 @@ const animeInfoValidator = [
   body("name")
     .matches(/[a-zA-Z\s]/)
     .withMessage("Name: " + invalidCharacterError)
-    .isLength({ min: 3, max: 50 })
+    .isLength({ min: 3, max: 250 })
     .withMessage("Username must be at least 3 character long"),
   body("creator")
+    .optional({ values: "falsy" })
     .matches(/[a-zA-Z\s]/)
     .withMessage("Creator: " + invalidCharacterError)
-    .isLength({ min: 2, max: 50 })
+    .isLength({ min: 2, max: 250 })
     .withMessage("Length of create must be at least 2 character long"),
-  body("rating").isNumeric().withMessage("Rating should be numeric"),
+  body("rating")
+    .optional({ values: "falsy" })
+    .isNumeric()
+    .withMessage("Rating should be numeric"),
   body("genre").exists().withMessage("Select at least one genre"),
   body("release_date")
+    .optional({ values: "falsy" })
     .isISO8601()
     .withMessage("Released date must be a valid ISO 8601 date"),
 ];

@@ -3,11 +3,7 @@ const inventoryController = require("../controllers/inventoryController.cjs");
 
 const inventoryRouter = Router();
 
-inventoryRouter.get("/", inventoryController.ListAnimeCollectionsGet);
-inventoryRouter.get(
-  "/page/:page",
-  inventoryController.ListAnimeCollectionByPagination
-);
+inventoryRouter.get("/", inventoryController.listRandomAnimeDataGet);
 
 inventoryRouter.get("/create", inventoryController.addAnimeInfoGet);
 inventoryRouter.post("/create", inventoryController.addAnimeInfoPost);
@@ -20,5 +16,12 @@ inventoryRouter.post("/add-genre", inventoryController.addAnimeGenrePost);
 inventoryRouter.get("/get-genres", inventoryController.getAnimeGenre);
 
 inventoryRouter.post("/collection/add", inventoryController.AddCollectionPost);
+
+inventoryRouter.get("/collection", inventoryController.ListAnimeCollectionsGet);
+inventoryRouter.get(
+  "/collection/:page",
+  inventoryController.ListAnimeCollectionByPagination
+);
+inventoryRouter.get("/:page", inventoryController.listRandomAnimeDataGet);
 
 module.exports = { inventoryRouter };

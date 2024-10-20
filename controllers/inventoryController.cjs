@@ -1,17 +1,16 @@
 const multer = require("multer");
 const { dbClient } = require("../db/dbClient.cjs");
-const { validationResult, param, body } = require("express-validator");
+const { validationResult } = require("express-validator");
 const { isCompletedAfterRelease } = require("../utils/dateUtil.cjs");
 const { cleanObject } = require("../utils/cleanObject.cjs");
-const { uploadImage } = require("../services/imageHost.cjs");
-const { animeSearchService } = require("../services/animeSearch.cjs");
+const { uploadImage, uploadImageUrl } = require("../services/imageHost.cjs");
+const { animeSearchService, limit } = require("../services/animeSearch.cjs");
 const { ratings, defaultFilters } = require("../constants/animeFilters.cjs");
 const validator = require("./validator.cjs");
+const { default: axios } = require("axios");
 
 const storage = multer.memoryStorage();
 const upload = multer({ storage: storage });
-
-const limit = 6;
 
 const renderAnimeCollectionsList = (res, animeSeriesObj) => {
   res.render("listAnimeCollection", {
@@ -20,6 +19,47 @@ const renderAnimeCollectionsList = (res, animeSeriesObj) => {
     currentPage: animeSeriesObj.currentPage,
     prevPage: animeSeriesObj.prevPage,
   });
+};
+
+/**
+ *
+ * @param {import("express").Request} req
+ * @param {import("express").Response} res
+ */
+exports.listRandomAnimeDataGet = async (req, res) => {
+  if (!req.session.animeUrl) {
+    const { url, pagination, data } =
+      await animeSearchService.searchRandomAnime();
+    req.session.animeUrl = new URL(url);
+    const nextPage = pagination.has_next_page
+      ? pagination.current_page + 1
+      : pagination.current_page;
+    res.render("homepage", {
+      animeData: data,
+      next: `/${nextPage}`,
+      prev: `/${Math.max(1, pagination.current_page - 1)}`,
+      hasPagination: true,
+    });
+  } else {
+    const pageParam = req.params.page;
+    const animeUrl = new URL(req.session.animeUrl);
+    animeUrl.searchParams.set("limit", limit);
+    animeUrl.searchParams.set("page", pageParam || 1);
+
+    const { url, pagination, data } = await animeSearchService.searchAnimeByUrl(
+      animeUrl.toString()
+    );
+    const nextPage = pagination.has_next_page
+      ? pagination.current_page + 1
+      : pagination.current_page;
+    console.log(data);
+    res.render("homepage", {
+      animeData: data,
+      next: nextPage,
+      prev: `/${Math.max(1, pagination.current_page - 1)}`,
+      hasPagination: true,
+    });
+  }
 };
 
 exports.ListAnimeCollectionsGet = async (req, res) => {
@@ -194,6 +234,8 @@ exports.AddCollectionPost = [
       res.json(validatedResult.array());
       return;
     }
+    const imageUploadResponse = await uploadImageUrl(req.body.image_url);
+    req.body.url = imageUploadResponse.data.image.url;
     const insertCollection = await dbClient.addAnimeData(req.body, true);
     res.json(req.body);
   },

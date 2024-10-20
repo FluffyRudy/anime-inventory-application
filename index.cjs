@@ -1,4 +1,5 @@
 const express = require("express");
+const session = require("express-session");
 const { resolve, join } = require("path");
 const { inventoryRouter } = require("./routers/inventory.cjs");
 const { dbClient } = require("./db/dbClient.cjs");
@@ -13,6 +14,15 @@ app.set("views", resolve(__dirname, "views"));
 app.set("view engine", "ejs");
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
+app.set("trust proxy", 1);
+app.use(
+  session({
+    secret: process.env.SESSION_HASH,
+    resave: false,
+    saveUninitialized: true,
+    cookie: { secure: false },
+  })
+);
 
 app.use("/", inventoryRouter);
 
