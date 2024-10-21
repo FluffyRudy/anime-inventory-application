@@ -14,7 +14,7 @@
   <div class="container">
     <ul class="anime-info">
         <% if (locals.animeSeries && locals.animeSeries.length > 0) { %> 
-          <%- include("./partials/animeData.ejs", { data: locals.animeSeries }) %>
+          <%- include("./partials/animeData.ejs", { data: locals.animeSeries, showUpdateOption: true }) %>
           <div class="page-nav">
             <a href="/collection/<%= locals.prevPage %>">previous</a>
             <a href="/collection/<%= locals.nextPage %>">next</a>

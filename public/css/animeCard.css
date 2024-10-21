@@ -10,18 +10,20 @@
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  background-color: #3c3c3c;
-  border-radius: 8px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+  background: linear-gradient(145deg, #262626, #404040, #2f2f2f);
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
   width: min(350px, 97vw);
   cursor: pointer;
   transition: transform 0.3s, box-shadow 0.3s;
   position: relative;
+  margin-top: 1vmax;
 }
 
 .anime-card:hover {
   transform: scale(1.05);
-  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.4);
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.7);
+  background: linear-gradient(145deg, #1f1f1f, #353535);
 }
 
 .anime-card img {
@@ -31,14 +33,15 @@
 }
 
 .anime-card h2 {
-  font-size: 1.5rem;
+  font-size: 1.6rem;
+  color: #e0e0e0;
   margin: 10px;
 }
 
 .anime-card p {
   font-size: 1rem;
   margin: 5px 10px;
-  color: #d3d3d3;
+  color: #cccccc;
 }
 
 .anime-synopsis {
@@ -47,17 +50,18 @@
   left: 0;
   width: 100%;
   max-height: 80%;
-  background: rgba(0, 0, 0, 0.9);
+  background: rgba(15, 15, 15, 0.95);
   display: none;
   padding: 20px;
   overflow-y: auto;
   box-sizing: border-box;
-  font-weight: bolder;
+  font-weight: bold;
 }
 
 .anime-synopsis p {
   font-size: 1.2rem;
   margin: 0;
+  color: #e0e0e0;
 }
 
 .anime-synopsis.active {
@@ -68,13 +72,33 @@
   margin-top: auto;
   width: 90%;
   height: auto;
-  background-color: #4e4e4e;
+  background-color: #474747;
   border-radius: 10px;
   box-sizing: border-box;
   padding: 10px 0;
   color: white;
-  font-weight: bolder;
+  font-weight: bold;
   cursor: pointer;
+}
+
+.anime-card a {
+  text-decoration: none;
+  color: #fff;
+  padding: 10px;
+  font-weight: bold;
+  display: block;
+  text-align: center;
+  border-radius: 5px;
+  width: 100%;
+  margin: auto;
+  box-sizing: border-box;
+  transition: background-color 0.2s ease;
+  background: #000;
+  border: none;
+}
+
+.anime-card a:hover {
+  background: #1e1e1e;
 }
 
 dialog {
@@ -87,4 +111,5 @@ dialog #close-dialog {
   top: 0;
   right: 0;
   cursor: pointer;
+  color: #ffffff;
 }

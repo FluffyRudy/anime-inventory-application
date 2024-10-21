@@ -39,7 +39,9 @@
         Add to collection
       </button>
       <% } %>
-      <a href="/collection/update/140">Update</a>
+      <% if (locals.showUpdateOption) { %>
+        <a href="/collection/update/140">Update</a>
+      <% } %>
     </div>
     <% }) %>
   </div>
