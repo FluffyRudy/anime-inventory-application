@@ -68,6 +68,28 @@ INSERT INTO anime_series
     RETURNING id;
 `;
 
+const updateAnimeCollectionQuery = `
+UPDATE anime_series 
+SET 
+    name = $1, 
+    release_date = $2, 
+    status = $3, 
+    completed_date = $4, 
+    creator = $5, 
+    rating = $6, 
+    image_url = $7, 
+    episodes = $8, 
+    duration = $9, 
+    age_rating = $10, 
+    scored_by = $11, 
+    rank = $12, 
+    popularity = $13, 
+    favorites = $14, 
+    synopsis = $15 
+WHERE id = $16
+RETURNING id;
+`;
+
 const addToAnimeCollectionQuery = `
 INSERT INTO anime_collections 
     (anime_series_id, name, description)
@@ -100,13 +122,25 @@ const selectAllGenreQuery = `
 SELECT * FROM genre;
 `;
 
+const selectAnimeById = `
+SELECT a.*, STRING_AGG(g.name, ',') AS genre
+FROM anime_series AS a
+JOIN anime_genre AS ag ON ag.anime_id = a.id
+JOIN genre AS g ON ag.genre_id = g.id
+WHERE a.id = $1
+GROUP BY a.id
+ORDER BY a.id;
+`;
+
 module.exports = {
   tableExistsQuery,
   dtypeExistsQuery,
   insertAnimeSeriesQuery,
+  updateAnimeCollectionQuery,
   addToAnimeCollectionQuery,
   selectAllAnimeSeriesQuery,
   selectAllGenreQuery,
   insertGenreQuery,
   selectAllAnimeSeriesDataQuery,
+  selectAnimeById,
 };

@@ -7,7 +7,6 @@ const { uploadImage, uploadImageUrl } = require("../services/imageHost.cjs");
 const { animeSearchService, limit } = require("../services/animeSearch.cjs");
 const { ratings, defaultFilters } = require("../constants/animeFilters.cjs");
 const validator = require("./validator.cjs");
-const { default: axios } = require("axios");
 
 const storage = multer.memoryStorage();
 const upload = multer({ storage: storage });
@@ -52,7 +51,6 @@ exports.listRandomAnimeDataGet = async (req, res) => {
       const nextPage = pagination.has_next_page
         ? pagination.current_page + 1
         : pagination.current_page;
-      console.log(data);
       res.render("homepage", {
         animeData: data,
         next: nextPage,
@@ -81,13 +79,24 @@ exports.ListAnimeCollectionByPagination = async (req, res) => {
   renderAnimeCollectionsList(res, animeSeriesObj);
 };
 
-exports.addAnimeInfoGet = async (req, res) => {
+exports.UpdateAnimeCollectionGet = async (req, res) => {
   const genres = await dbClient.getAllGenre();
+  const animeItem = await dbClient.getAnimeItemById(req.params.id);
+  const checkedGenres = animeItem.genre.split(/,\s*/) || [];
 
-  res.render("addAnime", { genres, values: {} });
+  delete animeItem["genre"];
+
+  console.log(animeItem.release_date.toLocaleString("sv-SV"));
+  res.render("addAnime", {
+    genres,
+    ratings,
+    values: { checkedGenres, ...animeItem },
+    route: `/collection/update/${req.param.id}`,
+    submitLabel: "Update",
+  });
 };
 
-exports.addAnimeInfoPost = [
+exports.UpdateAnimeCollectionPost = [
   upload.single("image"),
   validator.animeInfoValidator,
   async (req, res) => {
@@ -97,12 +106,17 @@ exports.addAnimeInfoPost = [
       res.render("addAnime", {
         errors: validatedResult.array(),
         genres: genres,
+        ratings: ratings,
         values: req.body,
       });
     } else {
       const data = req.body;
 
-      if (req.file) {
+      if (req.body.image_url) {
+        const uploadRes = await uploadImageUrl(req.body.image_url);
+        data.image_url = uploadRes.data.image.url;
+        console.log(uploadRes);
+      } else if (req.file) {
         const uploadRes = await uploadImage(req.file);
         if (uploadRes.success) data.image_url = uploadRes.data.image.url;
         else data.image_url = "";
@@ -125,8 +139,100 @@ exports.addAnimeInfoPost = [
       data.favorites = Number(data.favorites);
       data.synopsis = data.synopsis;
 
-      data.release_date ||= null;
-      data.completed_date ||= null;
+      data.release_date = data.release_date
+        ? new Date(data.release_date).toISOString()
+        : null;
+      data.completed_date = data.completed_date
+        ? new Date(data.completed_date).toISOString()
+        : null;
+
+      if (!data.release_date) {
+        data.release_date.toISOString();
+      }
+
+      const isCompleted = isCompletedAfterRelease(
+        data.completed_date,
+        data.release_date
+      );
+      if (isCompleted === true) {
+        data.status = "completed";
+      } else if (isCompleted === false && data.completed_date) {
+        data.status = "ongoing";
+      } else {
+        data.status = "unknown";
+      }
+
+      await dbClient.updateAnimeItem(req.params.id, data);
+      res.redirect("/");
+    }
+  },
+];
+
+exports.addAnimeInfoGet = async (req, res) => {
+  const genres = await dbClient.getAllGenre();
+
+  res.render("addAnime", {
+    genres,
+    ratings,
+    values: {},
+    route: "/create",
+    submitLabel: "Create",
+  });
+};
+
+exports.addAnimeInfoPost = [
+  upload.single("image"),
+  validator.animeInfoValidator,
+  async (req, res) => {
+    const validatedResult = validationResult(req);
+    if (!validatedResult.isEmpty()) {
+      const genres = await dbClient.getAllGenre();
+      res.render("addAnime", {
+        errors: validatedResult.array(),
+        genres: genres,
+        ratings: ratings,
+        values: req.body,
+      });
+    } else {
+      const data = req.body;
+
+      if (req.body.image_url) {
+        const uploadRes = await uploadImageUrl(req.body.image_url);
+        data.image_url = uploadRes.data.image.url;
+        console.log(uploadRes);
+      } else if (req.file) {
+        const uploadRes = await uploadImage(req.file);
+        if (uploadRes.success) data.image_url = uploadRes.data.image.url;
+        else data.image_url = "";
+      } else {
+        console.error("no image found");
+      }
+
+      data.genre = !data.genre
+        ? []
+        : Array.isArray(data.genre)
+        ? data.genre
+        : [data.genre];
+
+      data.episodes = Number(data.episodes);
+      data.duration = data.duration;
+      data.rating = Number(data.rating);
+      data.scored_by = Number(data.scored_by);
+      data.rank = Number(data.rank);
+      data.popularity = Number(data.popularity);
+      data.favorites = Number(data.favorites);
+      data.synopsis = data.synopsis;
+
+      data.release_date = data.release_date
+        ? new Date(data.release_date).toISOString()
+        : null;
+      data.completed_date = data.completed_date
+        ? new Date(data.completed_date).toISOString()
+        : null;
+
+      if (!data.release_date) {
+        data.release_date.toISOString();
+      }
 
       const isCompleted = isCompletedAfterRelease(
         data.completed_date,
@@ -230,6 +336,7 @@ exports.searchAnimePost = [
 ];
 
 exports.AddCollectionPost = [
+  upload.single("image"),
   validator.animeInfoValidator,
   async (req, res) => {
     req.body.genre = req.body.genre.split(/,\s* /);
@@ -239,8 +346,13 @@ exports.AddCollectionPost = [
       return;
     }
     try {
-      const imageUploadResponse = await uploadImageUrl(req.body.image_url);
-      req.body.url = imageUploadResponse.data.image.url;
+      if (req.body.image_url) {
+        const uploadRes = await uploadImageUrl(req.body.image_url);
+        req.body.image_url = uploadRes.data.image.url;
+        console.log(uploadRes);
+      } else {
+        console.error("no image found");
+      }
       await dbClient.addAnimeData(req.body, true);
       res.json({ success: true });
     } catch (error) {

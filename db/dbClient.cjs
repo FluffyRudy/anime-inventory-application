@@ -71,6 +71,15 @@ class DBClient {
     return modelCheckResult;
   }
 
+  async getAnimeItemById(id) {
+    try {
+      const response = await this.pool.query(query.selectAnimeById, [id]);
+      return { ...response.rows[0], rowCount: 1 };
+    } catch (error) {
+      return { rowCount: 0 };
+    }
+  }
+
   async getAllAnimeSeriesDate(limit, offset, page) {
     const res = await this.pool.query(query.selectAllAnimeSeriesDataQuery, [
       limit,
@@ -84,6 +93,48 @@ class DBClient {
       currentPage: page,
       prevPage: Math.max(page - 1, 1),
     };
+  }
+
+  async updateAnimeItem(id, updatedData) {
+    const prevData = await this.pool.query(query.selectAnimeById, [id]);
+    const columnValues = {
+      name: updatedData.name || prevData.name,
+      release_date: updatedData.release_date || prevData.release_date,
+      status: updatedData.status || prevData.status,
+      completed_date: updatedData.completed_date || prevData.completed_date,
+      creator: updatedData.creator || prevData.creator,
+      rating: updatedData.rating || prevData.rating,
+      image_url: updatedData.image_url || prevData.image_url,
+      episodes: updatedData.episodes || prevData.episodes,
+      duration: updatedData.duration || prevData.duration,
+      age_rating: updatedData.age_rating || prevData.age_rating,
+      scored_by: updatedData.scored_by || prevData.scored_by,
+      rank: updatedData.rank || prevData.rank,
+      popularity: updatedData.popularity || prevData.popularity,
+      favorites: updatedData.favorites || prevData.favorites,
+      synopsis: updatedData.synopsis || prevData.synopsis,
+    };
+
+    const values = [
+      columnValues.name,
+      columnValues.release_date,
+      columnValues.status,
+      columnValues.completed_date,
+      columnValues.creator,
+      columnValues.rating,
+      columnValues.image_url,
+      columnValues.episodes,
+      columnValues.duration,
+      columnValues.age_rating,
+      columnValues.scored_by,
+      columnValues.rank,
+      columnValues.popularity,
+      columnValues.favorites,
+      columnValues.synopsis,
+      id,
+    ];
+
+    await this.pool.query(query.updateAnimeCollectionQuery, values);
   }
 
   /**
@@ -118,7 +169,7 @@ class DBClient {
    * @returns {Promise<void>} A promise that resolves once the anime series has been added and optionally linked to a collection and genres.
    * @throws {Error} Throws an error if the insertion fails or if the provided data is invalid.
    */
-  async addAnimeData(data, addToCollection = true) {
+  async addAnimeData(data, addToCollection = false) {
     const {
       name,
       release_date,

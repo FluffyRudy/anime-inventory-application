@@ -12,7 +12,7 @@
     <div class="container">
         <h2>Create Anime Series</h2>
         <%- include('./partials/errors.ejs') %>
-        <form action="/create" method="post" enctype="multipart/form-data">
+        <form action="<% locals.route %>" method="post" enctype="multipart/form-data">
             <label for="name">Name:</label>
             <input
                 type="text"
@@ -32,6 +32,9 @@
                         <% locals.genres.map((genre) => { %>
                             <li>
                                 <input
+                                    <% if (values.checkedGenres && values.checkedGenres.includes(genre)) { %>
+                                        <%= 'checked' %>
+                                    <% } %> 
                                     class="genre-checkbox"
                                     type="checkbox"
                                     name="genre"
@@ -48,23 +51,23 @@
             <label for="release_date">Release Date:</label>
             <input
                 required
-                type="date"
+                type="datetime-local"
                 id="release_date"
                 name="release_date"
-                value="<%= values.release_date || '' %>"
+                value="<%= values.release_date?.toLocaleString('sv-SE')?.replace(' ', 'T') || '' %>"
             />
 
             <label for="completed_date">Completed Date:</label>
             <input
-                type="date"
+                type="datetime-local"
                 id="completed_date"
                 name="completed_date"
-                value="<%= values.completed_date || '' %>"
+                value="<%= values.completed_date?.toLocaleString('sv-SE')?.replace(' ', 'T') || '' %>"
             />
 
             <label for="creator">Creator:</label>
             <input
-                type="text"
+                type="text" 
                 id="creator"
                 name="creator"
                 value="<%= values.creator || '' %>"
@@ -98,13 +101,15 @@
                 value="<%= values.duration || '' %>"
             />
 
-            <label for="age_rating">Age Rating:</label>
-            <input
-                type="text"
-                id="age_rating"
-                name="age_rating"
-                value="<%= values.age_rating || '' %>"
-            />
+            <div class="form-field">
+                <label for="ratings">Select Rating</label>
+                <select name="age_rating" id="ratings">
+                    <option value="" disabled selected>Select Rating</option>
+                    <% locals.ratings.forEach(rating => { %>
+                        <option value="<%= rating.value %>"><%= rating.label %></option>
+                    <% }) %>
+                </select>
+            </div>
 
             <label for="scored_by">Scored By:</label>
             <input
@@ -141,12 +146,14 @@
 
             <label for="image">Upload an image:</label>
             <input type="file" name="image" id="image" accept="image/*" />
+            <label for="image_url">Image Url: </label>
+            <input type="url" name="image_url" id="image_url" accept="image/*" placeholder="url is priorized over image file">
 
             <label for="synopsis"></label>
-            <textarea id="synopsis" name="synopsis" placeholder="Add synopsis"></textarea>
+            <textarea id="synopsis" name="synopsis" placeholder="Add synopsis"><%= values.synopsis %> </textarea>
 
             <div>
-                <button type="submit">Create Anime Series</button>
+                <button type="submit"><%= locals.submitLabel %></button>
             </div>
         </form>
     </div>

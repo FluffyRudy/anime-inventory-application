@@ -19,6 +19,14 @@ inventoryRouter.post("/collection/add", inventoryController.AddCollectionPost);
 
 inventoryRouter.get("/collection", inventoryController.ListAnimeCollectionsGet);
 inventoryRouter.get(
+  "/collection/update/:id",
+  inventoryController.UpdateAnimeCollectionGet
+);
+inventoryRouter.post(
+  "/collection/update/:id",
+  inventoryController.UpdateAnimeCollectionPost
+);
+inventoryRouter.get(
   "/collection/:page",
   inventoryController.ListAnimeCollectionByPagination
 );

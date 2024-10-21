@@ -28,7 +28,7 @@
       <div class="anime-synopsis">
         <p><%= anime.synopsis %></p>
       </div>
-      <% if (typeof showAddToCollection !== 'undefined' && showAddToCollection)
+      <% if (locals.showAddToCollection)
       { %>
       <button
         type="button"
@@ -39,6 +39,7 @@
         Add to collection
       </button>
       <% } %>
+      <a href="/collection/update/140">Update</a>
     </div>
     <% }) %>
   </div>
