@@ -119,7 +119,6 @@ exports.UpdateAnimeCollectionPost = [
       if (req.body.image_url) {
         const uploadRes = await uploadImageUrl(req.body.image_url);
         data.image_url = uploadRes.data.image.url;
-        console.log(uploadRes);
       } else if (req.file) {
         const uploadRes = await uploadImage(req.file);
         if (uploadRes.success) data.image_url = uploadRes.data.image.url;
@@ -203,7 +202,6 @@ exports.addAnimeInfoPost = [
       if (req.body.image_url) {
         const uploadRes = await uploadImageUrl(req.body.image_url);
         data.image_url = uploadRes.data.image.url;
-        console.log(uploadRes);
       } else if (req.file) {
         const uploadRes = await uploadImage(req.file);
         if (uploadRes.success) data.image_url = uploadRes.data.image.url;
@@ -278,7 +276,6 @@ exports.addAnimeGenreGet = async (req, res) => {
 exports.addAnimeGenrePost = [
   validator.genreInfoValidator,
   async (req, res) => {
-    console.log(req.body);
     const validatedResult = validationResult(req);
     const avilableGenres = await dbClient.getAllGenre();
     if (!validatedResult.isEmpty()) {
@@ -353,7 +350,6 @@ exports.AddCollectionPost = [
       if (req.body.image_url) {
         const uploadRes = await uploadImageUrl(req.body.image_url);
         req.body.image_url = uploadRes.data.image.url;
-        console.log(uploadRes);
       } else {
         console.error("no image found");
       }
