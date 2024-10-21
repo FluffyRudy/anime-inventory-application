@@ -85,8 +85,6 @@ exports.UpdateAnimeCollectionGet = async (req, res) => {
   const checkedGenres = animeItem.genre.split(/,\s*/) || [];
 
   delete animeItem["genre"];
-
-  console.log(animeItem.release_date.toLocaleString("sv-SV"));
   res.render("addAnime", {
     genres,
     ratings,

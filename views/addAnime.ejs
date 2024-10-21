@@ -144,12 +144,19 @@
                 value="<%= values.favorites || '0' %>"
             />
 
-            <label for="image">Upload an image:</label>
-            <input type="file" name="image" id="image" accept="image/*" />
-            <label for="image_url">Image Url: </label>
-            <input type="url" name="image_url" id="image_url" accept="image/*" placeholder="url is priorized over image file">
+            <div>
+                <label for="image">Upload an image:</label>
+                <input type="file" name="image" id="image" accept="image/*" />
+                <label for="image_url">Image Url: </label>
+                <input type="url" name="image_url" id="image_url" accept="image/*" placeholder="url is priorized over image file">
+            </div>
 
-            <label for="synopsis"></label>
+            <div class="img-preview">
+                <label for="img_preview">Image Preview:</label>
+                <img src="<%= values.image_url %>" id="img-preview" alt="">
+            </div>
+
+            <label for="synopsis">Synopsis:</label>
             <textarea id="synopsis" name="synopsis" placeholder="Add synopsis"><%= values.synopsis %> </textarea>
 
             <% if (locals.isUserUpdatable) { %> 
@@ -184,6 +191,27 @@
         genreListToggleBtn.addEventListener("click", () => {
             handleGenresDisplay();
         });
+
+        const fileInput = document.getElementById('image');
+        const urlInput = document.getElementById('image_url');
+        const imgPreview = document.getElementById('img-preview');
+
+        function updatePreview() {
+            const file = fileInput.files[0];
+            const url = urlInput.value;
+
+            if (url) {
+                imgPreview.src = url;
+            } else if (file) {
+                const fileURL = URL.createObjectURL(file);
+                imgPreview.src = fileURL;
+            } else {
+                imgPreview.src = '';
+            }
+        }
+
+        fileInput.addEventListener('change', updatePreview);
+        urlInput.addEventListener('input', updatePreview);
     </script>
 </body>
 <script src="/js/listAnime.js"></script>

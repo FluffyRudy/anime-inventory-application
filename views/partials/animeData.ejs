@@ -40,7 +40,7 @@
       </button>
       <% } %>
       <% if (locals.showUpdateOption) { %>
-        <a href="/collection/update/140">Update</a>
+        <a href="/collection/update/<%= anime.id || '#' %>">Update</a>
       <% } %>
     </div>
     <% }) %>
