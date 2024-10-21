@@ -27,38 +27,42 @@ const renderAnimeCollectionsList = (res, animeSeriesObj) => {
  * @param {import("express").Response} res
  */
 exports.listRandomAnimeDataGet = async (req, res) => {
-  if (!req.session.animeUrl) {
-    const { url, pagination, data } =
-      await animeSearchService.searchRandomAnime();
-    req.session.animeUrl = new URL(url);
-    const nextPage = pagination.has_next_page
-      ? pagination.current_page + 1
-      : pagination.current_page;
-    res.render("homepage", {
-      animeData: data,
-      next: `/${nextPage}`,
-      prev: `/${Math.max(1, pagination.current_page - 1)}`,
-      hasPagination: true,
-    });
-  } else {
-    const pageParam = req.params.page;
-    const animeUrl = new URL(req.session.animeUrl);
-    animeUrl.searchParams.set("limit", limit);
-    animeUrl.searchParams.set("page", pageParam || 1);
+  try {
+    if (!req.session.animeUrl) {
+      const { url, pagination, data } =
+        await animeSearchService.searchRandomAnime();
+      req.session.animeUrl = new URL(url);
+      const nextPage = pagination.has_next_page
+        ? pagination.current_page + 1
+        : pagination.current_page;
+      res.render("homepage", {
+        animeData: data,
+        next: `/${nextPage}`,
+        prev: `/${Math.max(1, pagination.current_page - 1)}`,
+        hasPagination: true,
+      });
+    } else {
+      const pageParam = req.params.page;
+      const animeUrl = new URL(req.session.animeUrl);
+      animeUrl.searchParams.set("limit", limit);
+      animeUrl.searchParams.set("page", pageParam || 1);
 
-    const { url, pagination, data } = await animeSearchService.searchAnimeByUrl(
-      animeUrl.toString()
-    );
-    const nextPage = pagination.has_next_page
-      ? pagination.current_page + 1
-      : pagination.current_page;
-    console.log(data);
-    res.render("homepage", {
-      animeData: data,
-      next: nextPage,
-      prev: `/${Math.max(1, pagination.current_page - 1)}`,
-      hasPagination: true,
-    });
+      const { url, pagination, data } =
+        await animeSearchService.searchAnimeByUrl(animeUrl.toString());
+      const nextPage = pagination.has_next_page
+        ? pagination.current_page + 1
+        : pagination.current_page;
+      console.log(data);
+      res.render("homepage", {
+        animeData: data,
+        next: nextPage,
+        prev: `/${Math.max(1, pagination.current_page - 1)}`,
+        hasPagination: true,
+      });
+    }
+  } catch (error) {
+    console.error(error.message);
+    res.send("<h1 style='color: #f00'>Server error occuerd</h1>");
   }
 };
 
