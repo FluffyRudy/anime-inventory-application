@@ -13,8 +13,13 @@ class DBClient {
   }
 
   initPool() {
+    const mode = process.env.NODE_ENV;
+    let connString = process.env.CONNECTION_STRING;
+    if (mode === "prod") {
+      connString = process.env.CONNECTION_STRING_PROD;
+    }
     return new Pool({
-      connectionString: process.env.CONNECTION_STRING,
+      connectionString: connString,
     });
   }
 
