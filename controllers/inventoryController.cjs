@@ -93,6 +93,7 @@ exports.UpdateAnimeCollectionGet = async (req, res) => {
     values: { checkedGenres, ...animeItem },
     route: `/collection/update/${req.param.id}`,
     submitLabel: "Update",
+    isUserUpdatable: true,
   });
 };
 
@@ -100,6 +101,11 @@ exports.UpdateAnimeCollectionPost = [
   upload.single("image"),
   validator.animeInfoValidator,
   async (req, res) => {
+    if (req.body.secret_password !== process.env.SECRET_PASSWORD) {
+      res.redirect("/");
+      return;
+    }
+
     const validatedResult = validationResult(req);
     if (!validatedResult.isEmpty()) {
       const genres = await dbClient.getAllGenre();
@@ -163,7 +169,7 @@ exports.UpdateAnimeCollectionPost = [
       }
 
       await dbClient.updateAnimeItem(req.params.id, data);
-      res.redirect("/");
+      res.redirect("/collection");
     }
   },
 ];

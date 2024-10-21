@@ -152,6 +152,13 @@
             <label for="synopsis"></label>
             <textarea id="synopsis" name="synopsis" placeholder="Add synopsis"><%= values.synopsis %> </textarea>
 
+            <% if (locals.isUserUpdatable) { %> 
+            <div>
+                <label for="secret_password">Secret passwword(require to update data and be redirected to homepage)</label>
+                <input id="secret_password" type="password" name="secret_password">
+            </div>
+            <% } %> 
+            
             <div>
                 <button type="submit"><%= locals.submitLabel %></button>
             </div>
