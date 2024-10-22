@@ -1,11 +1,12 @@
 const { body } = require("express-validator");
+require("dotenv").config();
 
 const invalidCharacterError =
   "Shouldnt contain extra character other than alphabet";
 
 const animeInfoValidator = [
   body("name")
-    .matches(/[a-zA-Z\s]/)
+    .matches(/[a-zA-Z][a-zA-Z\s]*/)
     .withMessage("Name: " + invalidCharacterError)
     .isLength({ min: 3, max: 250 })
     .withMessage("Username must be at least 3 character long"),
@@ -44,8 +45,22 @@ const searchQueryValidator = [
     .withMessage("Minimum 3 character required for seach value"),
 ];
 
+const animeUpdateValidator = [
+  body("name")
+    .matches(/[a-zA-Z][a-zA-Z\s]*/)
+    .withMessage("Name should start with alphabets")
+    .isLength({ min: 3 }),
+  body("secret_password")
+    .custom((value) => {
+      console.log(value);
+      return value === process.env.SECRET_PASSWORD;
+    })
+    .withMessage("Invalid secret password"),
+];
+
 module.exports = {
   animeInfoValidator,
   genreInfoValidator,
   searchQueryValidator,
+  animeUpdateValidator,
 };
