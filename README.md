@@ -8,6 +8,7 @@ The Anime Inventory Database Application allows users to explore and manage thei
 
 - **Random Anime Recommendations**: Get a randomly selected anime series on the homepage.
 - **Add to Collection**: Users can add their favorite anime series to their personal collections.
+- **Synopsis/Summery**: Click on any card to toggle summery
 - **Custom Anime Creation**: Users can create and manage custom anime entries.
 - **Custom Genre Management**: Users can define their own genres for categorizing anime.
 - **Search Functionality**: Quickly search through a large collection of anime series with the filters.
