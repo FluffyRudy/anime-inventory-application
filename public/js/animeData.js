@@ -5,21 +5,35 @@ const dialogCloseBtn = document.getElementById("close-dialog");
 const dialogOkBtn = document.getElementById("dialog-ok");
 const collectionNameElem = dialog.querySelector("#collection-name");
 const collectionDescElem = dialog.querySelector("#collection-desc");
-const collection = { collectionName: "", collectionDescription: "" };
+const collection = {
+  collectionName: "",
+  collectionDescription: "",
+  canPost: false,
+};
+const loadingElem = document.createElement("h1");
+const animeContainer = document.querySelector(".anime-container");
 
 const waitForDialogClose = () => {
   return new Promise((resolve) => {
+    collection.canPost = true;
     dialog.addEventListener("close", resolve, { once: true });
   });
 };
 
-dialogCloseBtn.addEventListener("close", () => {
+dialogCloseBtn.addEventListener("click", () => {
+  collection.canPost = false;
   dialog.close();
 });
+
 dialogOkBtn.addEventListener("click", () => {
   collection.collectionName = collectionNameElem.value;
   collection.collectionDescription = collectionDescElem.value;
   dialog.close();
+
+  animeContainer.classList.add("non-clickable");
+  loadingElem.textContent = "Wait, adding to collection";
+  loadingElem.classList.add("window-centered");
+  document.body.prepend(loadingElem);
 });
 
 animeCards.forEach((card) => {
@@ -41,6 +55,7 @@ animeCards.forEach((card) => {
     synopsis.classList.remove("active");
   });
 });
+
 addToCollection.forEach((btn) => {
   btn.addEventListener("click", async (e) => {
     e.stopPropagation();
@@ -48,10 +63,31 @@ addToCollection.forEach((btn) => {
 
     await waitForDialogClose();
 
-    if (collection.collectionName) {
-      postData(e, collection).then(async (res) => {
-        console.log(await res.json());
-      });
+    if (collection.collectionName.trim().length >= 3 && collection.canPost) {
+      postData(e, collection)
+        .then(async (res) => {
+          const response = await res.json();
+          console.log(response);
+          loadingElem.textContent = "Added successfully";
+          setTimeout(() => {
+            animeContainer.classList.remove("non-clickable");
+            loadingElem.remove();
+          }, 1500);
+        })
+        .catch((error) => {
+          console.error(error.message);
+          loadingElem.textContent = "Unable add to collection";
+          setTimeout(() => {
+            animeContainer.classList.remove("non-clickable");
+            loadingElem.remove();
+          }, 1500);
+        });
+    } else {
+      loadingElem.textContent = "Unable add to collection";
+      setTimeout(() => {
+        animeContainer.classList.remove("non-clickable");
+        loadingElem.remove();
+      }, 1500);
     }
   });
 });

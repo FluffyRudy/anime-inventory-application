@@ -1,3 +1,6 @@
+/*
+Regular styling
+*/
 .anime-container {
   display: flex;
   flex-wrap: wrap;
@@ -104,12 +107,70 @@
 dialog {
   position: relative;
   width: min(300px, 97vw);
+  background-color: #2e2e2e;
+  color: #ffffff;
+  border: none;
+  border-radius: 8px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+  padding: 20px;
 }
 
 dialog #close-dialog {
-  position: absolute;
-  top: 0;
-  right: 0;
-  cursor: pointer;
+  background-color: #ff4d4d;
+}
+
+dialog input[type="text"],
+dialog textarea {
+  width: 100%;
+  padding: 10px;
+  margin-top: 10px;
+  border: 1px solid #ffffff;
+  border-radius: 4px;
+  background-color: #3a3a3a;
   color: #ffffff;
+  box-sizing: border-box;
+  font-weight: bolder;
+}
+
+dialog textarea {
+  resize: vertical;
+  min-height: 200px;
+}
+
+dialog button {
+  margin-top: 20px;
+  padding: 10px 15px;
+  border: none;
+  border-radius: 4px;
+  background-color: #4caf50;
+  color: #ffffff;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  font-weight: bolder;
+}
+
+dialog button:hover {
+  background-color: #45a049;
+}
+
+.loading-message {
+  text-align: center;
+  margin-top: 20px;
+  color: #ffffff;
+}
+
+/*
+For non interactiveness
+*/
+.non-clickable {
+  pointer-events: none;
+  opacity: 0.5;
+}
+
+.window-centered {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 100;
 }
