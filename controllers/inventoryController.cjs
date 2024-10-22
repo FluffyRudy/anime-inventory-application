@@ -97,13 +97,8 @@ exports.UpdateAnimeCollectionGet = async (req, res) => {
 
 exports.UpdateAnimeCollectionPost = [
   upload.single("image"),
-  validator.animeInfoValidator,
+  validator.animeUpdateValidator,
   async (req, res) => {
-    if (req.body.secret_password !== process.env.SECRET_PASSWORD) {
-      res.redirect("/");
-      return;
-    }
-
     const validatedResult = validationResult(req);
     if (!validatedResult.isEmpty()) {
       const genres = await dbClient.getAllGenre();
